@@ -17,7 +17,7 @@
             </div>
             
             <div class="character-slider-wrap">
-                <p class="slider-hint">👇 인물 카드를 탭해서 엿보기 (좌우 스크롤)</p>
+                <p class="slider-hint">👆 인물 카드를 터치하면 소개가 열려요! (좌우 스와이프)</p>
                 <div class="character-slider" id="character-slider">
                     </div>
             </div>
@@ -31,10 +31,11 @@
             </div>
             <div class="question-number" id="q-num">Q1.</div>
             
-            <div class="image-container" id="image-container" onclick="skipImageDelay()">
+            <div class="image-container" id="image-container" onclick="toggleQuestionImage()">
                 <img id="q-img1" src="" alt="scene 1">
-                <img id="q-img2" src="" alt="scene 2" class="hidden">
-                <div class="skip-hint" id="skip-hint">터치해서 넘기기 👆</div>
+                <img id="q-img2" src="" alt="scene 2">
+                <div class="scene-badge" id="scene-badge">장면 1 / 2</div>
+                <div class="skip-hint" id="skip-hint">터치해서 화면 전환 🔄</div>
             </div>
 
             <div class="question-text" id="q-text">질문 텍스트</div>
@@ -55,15 +56,13 @@
             
             <img id="r-img" src="" alt="결과 이미지" class="result-image">
             
-            <div class="result-desc" id="r-desc">
-                결과 설명 텍스트
-            </div>
+            <div class="result-desc" id="r-desc">결과 설명</div>
 
             <div class="book-recommendation">
                 <h3>📖 당신을 위한 맞춤 도서 추천</h3>
                 <p id="r-book-desc">책 추천 멘트</p>
-                <img src="assets/book.png" alt="이번 생은 갓생" class="book-image">
-                <button class="btn-book" onclick="window.open('https://도서구매링크.com')">『이번 생은 갓생』 자세히 보기</button>
+                <img src="book.png" alt="이번 생은 갓생" class="assets/book-image">
+                <button class="btn-book" onclick="window.open('https://도서구매링크를_넣어주세요.com')">『이번 생은 갓생』 자세히 보기</button>
             </div>
 
             <button class="btn-retry" onclick="location.reload()">테스트 다시하기 🔄</button>
