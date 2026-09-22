@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>내 연애 촉은 어느 정도일까? 송현고 과몰입 추리 테스트</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+</head>
+<body>
+    <div id="app">
+        <section id="main-screen" class="screen active">
+            <div class="main-titles">
+                <h2>송현고 2학년 5반 관찰 일지</h2>
+                <h1>내 연애 촉은<br>어느 정도일까?</h1>
+                <p>나 빼고 다 썸타는 우리 반?<br>얽히고설킨 묘한 기류 속에서 내 눈치 레벨을 측정해 보자!</p>
+            </div>
+            
+            <div class="character-slider-wrap">
+                <p class="slider-hint">👇 인물 카드를 탭해서 엿보기 (좌우 스크롤)</p>
+                <div class="character-slider" id="character-slider">
+                    </div>
+            </div>
+
+            <button class="btn-start" onclick="startTest()">관찰 시작하기 🕵️‍♀️</button>
+        </section>
+
+        <section id="test-screen" class="screen">
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="question-number" id="q-num">Q1.</div>
+            
+            <div class="image-container" id="image-container" onclick="skipImageDelay()">
+                <img id="q-img1" src="" alt="scene 1">
+                <img id="q-img2" src="" alt="scene 2" class="hidden">
+                <div class="skip-hint" id="skip-hint">터치해서 넘기기 👆</div>
+            </div>
+
+            <div class="question-text" id="q-text">질문 텍스트</div>
+            
+            <div class="choices" id="choices">
+                </div>
+        </section>
+
+        <section id="loading-screen" class="screen">
+            <div class="loader"></div>
+            <h2>당신의 연애 촉 분석 중...</h2>
+            <p>과연 내 눈치 레벨은?</p>
+        </section>
+
+        <section id="result-screen" class="screen">
+            <h3 class="result-subtitle">당신의 연애 촉 분석 결과</h3>
+            <h1 class="result-title" id="r-title">결과 타이틀</h1>
+            
+            <img id="r-img" src="" alt="결과 이미지" class="result-image">
+            
+            <div class="result-desc" id="r-desc">
+                결과 설명 텍스트
+            </div>
+
+            <div class="book-recommendation">
+                <h3>📖 당신을 위한 맞춤 도서 추천</h3>
+                <p id="r-book-desc">책 추천 멘트</p>
+                <img src="book.png" alt="이번 생은 갓생" class="book-image">
+                <button class="btn-book" onclick="window.open('https://도서구매링크.com')">『이번 생은 갓생』 자세히 보기</button>
+            </div>
+
+            <button class="btn-retry" onclick="location.reload()">테스트 다시하기 🔄</button>
+        </section>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
