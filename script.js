@@ -1,5 +1,10 @@
 /* ===================================
-   데이터: 캐릭터 / 문항 / 결과
+   스크롤 복원 방지 (새로고침 시 항상 최상단)
+=================================== */
+if (history.scrollRestoration) history.scrollRestoration = 'manual';
+
+/* ===================================
+   데이터
 =================================== */
 const characters = [
     { id: 1, img: 'assets/c_001.png', name: '이은성', desc: '교실 뒷자리의 조용한 프로 관찰자. 중학교 때 짝사랑했던 그 애가 전학을 오면서 일상이 흔들리기 시작했다?' },
@@ -69,13 +74,13 @@ const questions = [
         img1: "assets/q7_1.png", img2: "assets/q7_2.png",
         choices: [
             { text: "도유진과 차재현이 남남커플로 엮이는 게 꼴 보기 싫어서 정의의 사도인 척 떼어놓으려고", score: 5 },
-            { text: "자신의 절친이었던 이유진이, 도유진의 비밀을 알게 되면 다시 자기한테 돌아올 줄 알고", score: 10 },
+            { text: "자신의 절친이었던 이은성이, 도유진의 비밀을 알게 되면 다시 자기한테 돌아올 줄 알고", score: 10 },
             { text: "사진 자체가 너무 특종인데 이걸 안 올릴 수가 없잖아?", score: 0 }
         ]
     },
     {
         q: "익명 게시판 폭로 이후, 반 대표 빌런 남학생이 도유진을 향해 선 넘는 조롱을 쏟아낸다. 그때, 소심하던 이은성이 일어나 빌런의 머리에 우유를 냅다 부어버렸다? 은성이의 미친 용기는 어디서 나온 걸까?",
-        img1: "assets/q9_1.png", img2: "assets/q9_2.png",
+        img1: "assets/q8_1.png", img2: "assets/q8_2.png",
         choices: [
             { text: "둘이 비밀 연애 중인데 남친 건드려서 빡친 거 아니야?", score: 5 },
             { text: "이은성이 도유진을 짝사랑하는 거 아니야?", score: 10 },
@@ -138,18 +143,24 @@ const results = [
 /* ===================================
    상태 변수
 =================================== */
-let currentQ = 0;
-let totalScore = 0;
-let slideIndex = 0;
-let slideInterval;
+let currentQ        = 0;
+let totalScore      = 0;
+let scoreHistory    = [];   // 뒤로가기용 점수 기록
+let slideIndex      = 0;
+let slideInterval   = null;
 let isSliderInteracting = false;
+let isModalOpen     = false;  // 캐릭터 모달 열림 여부
 let questionImageTimer;
-let isScene2 = false;
+let isScene2        = false;
+let isDragging      = false;  // PC 드래그 여부
+let dragStartX      = 0;
+let dragScrollLeft  = 0;
 
 /* ===================================
    초기화
 =================================== */
 window.onload = () => {
+    window.scrollTo(0, 0);
     initCharacterSlider();
 };
 
@@ -163,76 +174,125 @@ function initCharacterSlider() {
         const card = document.createElement('div');
         card.className = 'char-card';
         card.style.backgroundImage = `url('${c.img}')`;
-        card.innerHTML = `
-            <div class="char-info">
-                <h4>${c.name}</h4>
-                <p>${c.desc}</p>
-            </div>
-        `;
-        card.onclick = () => {
-            if (card.classList.contains('open')) {
-                card.classList.remove('open');
-            } else {
-                document.querySelectorAll('.char-card').forEach(el => el.classList.remove('open'));
-                card.classList.add('open');
-            }
-        };
+        // 클릭 → 모달 오픈
+        card.onclick = () => openCharModal(c.name, c.desc, c.img);
         slider.appendChild(card);
     });
 
-    // 자동 슬라이드 (카드 너비 240 + gap 16 = 256)
+    /* 자동 슬라이드 (5초로 여유 있게) */
     function startAutoSlide() {
-        if (isSliderInteracting) return;
+        if (isSliderInteracting || isModalOpen) return;
         stopAutoSlide();
         slideInterval = setInterval(() => {
-            if (isSliderInteracting) return;
+            if (isSliderInteracting || isModalOpen) return;
             slideIndex++;
             if (slideIndex >= characters.length) slideIndex = 0;
             slider.scrollTo({ left: slideIndex * 256, behavior: 'smooth' });
-        }, 3000);
+        }, 5000);
     }
-    function stopAutoSlide() { clearInterval(slideInterval); }
+    function stopAutoSlide() { clearInterval(slideInterval); slideInterval = null; }
 
-    slider.addEventListener('touchstart', () => { isSliderInteracting = true; stopAutoSlide(); }, { passive: true });
-    slider.addEventListener('touchend',   () => { isSliderInteracting = false; startAutoSlide(); }, { passive: true });
-    slider.addEventListener('mousedown',  () => { isSliderInteracting = true; stopAutoSlide(); });
-    slider.addEventListener('mouseup',    () => { isSliderInteracting = false; startAutoSlide(); });
-    slider.addEventListener('scroll',     () => {
+    /* 모바일 터치 */
+    slider.addEventListener('touchstart', () => {
+        isSliderInteracting = true; stopAutoSlide();
+    }, { passive: true });
+    slider.addEventListener('touchend', () => {
+        isSliderInteracting = false;
+        setTimeout(startAutoSlide, 1000);
+    }, { passive: true });
+
+    /* PC/Mac 마우스 드래그 */
+    slider.addEventListener('mousedown', (e) => {
+        isDragging      = true;
+        dragStartX      = e.pageX - slider.getBoundingClientRect().left;
+        dragScrollLeft  = slider.scrollLeft;
+        isSliderInteracting = true;
+        stopAutoSlide();
+        slider.style.cursor = 'grabbing';
+        e.preventDefault();
+    });
+    window.addEventListener('mouseup', () => {
+        if (!isDragging) return;
+        isDragging = false;
+        isSliderInteracting = false;
+        slider.style.cursor = 'grab';
+        setTimeout(startAutoSlide, 1000);
+    });
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+        const x    = e.pageX - slider.getBoundingClientRect().left;
+        const walk = (x - dragStartX) * 1.4;
+        slider.scrollLeft = dragScrollLeft - walk;
+    });
+
+    /* 스크롤로 slideIndex 동기화 */
+    slider.addEventListener('scroll', () => {
         if (isSliderInteracting) slideIndex = Math.round(slider.scrollLeft / 256);
     }, { passive: true });
 
     startAutoSlide();
+
+    // 전역에서 슬라이더 제어할 수 있게 노출
+    window._sliderStart = startAutoSlide;
+    window._sliderStop  = stopAutoSlide;
 }
 
 /* ===================================
-   2. 화면 전환
+   2. 캐릭터 모달 (열기/닫기)
+=================================== */
+function openCharModal(name, desc, imgUrl) {
+    document.getElementById('char-modal-img').style.backgroundImage = `url('${imgUrl}')`;
+    document.getElementById('char-modal-name').innerText = name;
+    document.getElementById('char-modal-desc').innerText = desc;
+    document.getElementById('char-modal').classList.add('active');
+    isModalOpen = true;
+    if (window._sliderStop) window._sliderStop();
+}
+
+function closeCharModal(e) {
+    // 오버레이 자체를 클릭했거나, X 버튼 클릭 시만 닫기
+    if (e && e.target !== document.getElementById('char-modal')) {
+        if (!e.target.classList.contains('char-modal-close')) return;
+    }
+    document.getElementById('char-modal').classList.remove('active');
+    isModalOpen = false;
+    setTimeout(() => { if (window._sliderStart) window._sliderStart(); }, 800);
+}
+
+/* ===================================
+   3. 화면 전환 (항상 최상단)
 =================================== */
 function switchScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
 }
 
 /* ===================================
-   3. 테스트 시작
+   4. 테스트 시작
 =================================== */
 function startTest() {
-    currentQ = 0;
-    totalScore = 0;
+    currentQ     = 0;
+    totalScore   = 0;
+    scoreHistory = [];
     switchScreen('test-screen');
     renderQuestion();
 }
 
 /* ===================================
-   4. 문항 렌더링
+   5. 문항 렌더링
 =================================== */
 function renderQuestion() {
     const q = questions[currentQ];
 
-    document.getElementById('q-num').innerText = `Q${currentQ + 1} / ${questions.length}`;
+    document.getElementById('q-num').innerText     = `Q${currentQ + 1} / ${questions.length}`;
     document.getElementById('progress').style.width = `${((currentQ + 1) / questions.length) * 100}%`;
-    document.getElementById('q-text').innerHTML = q.q;
+    document.getElementById('q-text').innerHTML    = q.q;
 
-    // 이미지 초기화
+    // 이미지 초기화 (크로스페이드 리셋)
     const container = document.getElementById('image-container');
     container.classList.remove('show-scene2');
     isScene2 = false;
@@ -240,9 +300,9 @@ function renderQuestion() {
     document.getElementById('q-img1').src = q.img1;
     document.getElementById('q-img2').src = q.img2;
 
-    // 2.5초 후 자동으로 장면 2로 전환
+    // 4.5초 후 자동 장면 전환
     clearTimeout(questionImageTimer);
-    questionImageTimer = setTimeout(switchToScene2, 2500);
+    questionImageTimer = setTimeout(switchToScene2, 4500);
 
     // 선택지 렌더링 (셔플)
     const choicesDiv = document.getElementById('choices');
@@ -254,6 +314,8 @@ function renderQuestion() {
         btn.innerText = c.text;
         btn.onclick = (e) => {
             addRipple(btn, e);
+            // 버튼 비활성화 (중복 클릭 방지)
+            choicesDiv.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
             setTimeout(() => selectAnswer(c.score), 220);
         };
         choicesDiv.appendChild(btn);
@@ -261,7 +323,7 @@ function renderQuestion() {
 }
 
 /* ===================================
-   5. 장면 전환
+   6. 장면 전환
 =================================== */
 function switchToScene2() {
     document.getElementById('image-container').classList.add('show-scene2');
@@ -274,23 +336,65 @@ function switchToScene1() {
     document.getElementById('scene-badge').innerText = '장면 1 / 2';
 }
 function toggleQuestionImage() {
-    clearTimeout(questionImageTimer);
+    clearTimeout(questionImageTimer); // 한 번 수동 전환하면 자동 타이머 꺼짐
     if (isScene2) switchToScene1();
     else switchToScene2();
 }
 
 /* ===================================
-   6. 답변 선택
+   7. 답변 선택 (페이드 전환)
 =================================== */
 function selectAnswer(score) {
+    scoreHistory.push(score);
     totalScore += score;
     currentQ++;
-    if (currentQ < questions.length) renderQuestion();
-    else showResult();
+
+    clearTimeout(questionImageTimer);
+    const content = document.getElementById('test-content');
+    content.classList.add('fade-out');
+
+    setTimeout(() => {
+        if (currentQ < questions.length) {
+            renderQuestion();
+            // 두 프레임 기다려 DOM 업데이트 후 페이드 인
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                content.classList.remove('fade-out');
+            }));
+        } else {
+            showResult();
+        }
+    }, 260);
 }
 
 /* ===================================
-   7. 결과 화면
+   8. 뒤로가기
+=================================== */
+function goBack() {
+    clearTimeout(questionImageTimer);
+
+    if (currentQ === 0) {
+        // 첫 문항이면 메인으로
+        switchScreen('main-screen');
+        return;
+    }
+
+    // 이전 점수 복원
+    const prevScore = scoreHistory.pop();
+    totalScore -= prevScore;
+    currentQ--;
+
+    const content = document.getElementById('test-content');
+    content.classList.add('fade-out');
+    setTimeout(() => {
+        renderQuestion();
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+            content.classList.remove('fade-out');
+        }));
+    }, 260);
+}
+
+/* ===================================
+   9. 결과 화면
 =================================== */
 function showResult() {
     switchScreen('loading-screen');
@@ -302,18 +406,29 @@ function showResult() {
         else if (totalScore >= 20) type = 3;
 
         const r = results[type];
-        document.getElementById('r-title').innerHTML    = r.title;
-        document.getElementById('r-img').src            = r.img;
-        document.getElementById('r-desc').innerHTML     = r.desc;
+        document.getElementById('r-title').innerHTML     = r.title;
+        document.getElementById('r-img').src             = r.img;
+        document.getElementById('r-desc').innerHTML      = r.desc;
         document.getElementById('r-book-desc').innerHTML = r.book;
 
         switchScreen('result-screen');
-        launchConfetti();           // 🎊 컨페티!
+        launchConfetti();
     }, 2000);
 }
 
 /* ===================================
-   8. 컨페티 이펙트
+   10. 다시하기 (상태 초기화 후 메인)
+=================================== */
+function retryTest() {
+    currentQ     = 0;
+    totalScore   = 0;
+    scoreHistory = [];
+    clearTimeout(questionImageTimer);
+    switchScreen('main-screen');
+}
+
+/* ===================================
+   11. 컨페티 이펙트 (페이드아웃 포함)
 =================================== */
 function launchConfetti() {
     const canvas = document.getElementById('confetti-canvas');
@@ -321,10 +436,13 @@ function launchConfetti() {
     const ctx = canvas.getContext('2d');
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
+    canvas.style.opacity = '1';
 
-    const COLORS = ['#FF6B9D', '#C084FC', '#FFB0D0', '#DDB8FF', '#FFD6EB', '#FFFFFF', '#FFE4B5'];
-    const SHAPES = ['circle', 'rect', 'heart'];
-    const PIECES = 110;
+    const COLORS  = ['#FF6B9D','#C084FC','#FFB0D0','#DDB8FF','#FFD6EB','#FFFFFF','#FFE4B5'];
+    const SHAPES  = ['circle','rect','heart'];
+    const PIECES  = 110;
+    const MAX_FRAMES  = 200;
+    const FADE_START  = 155;  // 이 프레임부터 서서히 페이드
 
     const pieces = Array.from({ length: PIECES }, () => ({
         x:     Math.random() * canvas.width,
@@ -338,9 +456,13 @@ function launchConfetti() {
     }));
 
     let frame = 0;
-    const MAX_FRAMES = 200; // ~3.3초
-
     function draw() {
+        // 페이드아웃 처리
+        if (frame >= FADE_START) {
+            const progress = (frame - FADE_START) / (MAX_FRAMES - FADE_START);
+            canvas.style.opacity = String(Math.max(0, 1 - progress));
+        }
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         pieces.forEach(p => {
             ctx.save();
@@ -349,49 +471,41 @@ function launchConfetti() {
             ctx.fillStyle = p.color;
 
             if (p.shape === 'circle') {
-                ctx.beginPath();
-                ctx.arc(0, 0, p.r, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.beginPath(); ctx.arc(0, 0, p.r, 0, Math.PI * 2); ctx.fill();
             } else if (p.shape === 'rect') {
                 ctx.fillRect(-p.r, -p.r * 0.5, p.r * 2, p.r);
             } else {
-                // 하트 모양
                 const s = p.r * 0.55;
                 ctx.beginPath();
                 ctx.moveTo(0, s * 0.5);
-                ctx.bezierCurveTo( s,    -s * 0.3,  s * 2, s * 0.6,  0,     s * 2);
-                ctx.bezierCurveTo(-s * 2, s * 0.6, -s,    -s * 0.3,  0,     s * 0.5);
+                ctx.bezierCurveTo(s, -s * 0.3, s * 2, s * 0.6, 0, s * 2);
+                ctx.bezierCurveTo(-s * 2, s * 0.6, -s, -s * 0.3, 0, s * 0.5);
                 ctx.fill();
             }
             ctx.restore();
 
-            p.y     += p.speed;
+            p.y += p.speed;
             p.angle += p.spin;
-            if (p.y > canvas.height) {
-                p.y = -10;
-                p.x = Math.random() * canvas.width;
-            }
+            if (p.y > canvas.height) { p.y = -10; p.x = Math.random() * canvas.width; }
         });
 
         frame++;
         if (frame < MAX_FRAMES) requestAnimationFrame(draw);
-        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        else { canvas.style.opacity = '0'; ctx.clearRect(0, 0, canvas.width, canvas.height); }
     }
     draw();
 }
 
 /* ===================================
-   9. 버튼 리플 이펙트
+   12. 리플 이펙트
 =================================== */
 function addRipple(btn, e) {
     const ripple = document.createElement('span');
     ripple.className = 'ripple';
-
     const rect = btn.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height);
-    const x = (e.clientX || rect.left + rect.width / 2) - rect.left - size / 2;
+    const x = (e.clientX || rect.left + rect.width  / 2) - rect.left - size / 2;
     const y = (e.clientY || rect.top  + rect.height / 2) - rect.top  - size / 2;
-
     ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;`;
     btn.appendChild(ripple);
     setTimeout(() => ripple.remove(), 600);
