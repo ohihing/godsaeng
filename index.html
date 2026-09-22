@@ -4,39 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>내 연애 촉은 어느 정도일까? | 송현고 과몰입 추리 테스트</title>
+
+    <!-- 타이틀용 Black Han Sans + 강조용 Jua -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&display=swap" rel="stylesheet">
+
+    <!-- 본문용 Pretendard -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css">
+
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
 </head>
 <body>
 <div id="app">
 
     <!-- ✦ 메인 화면 -->
     <section id="main-screen" class="screen active">
-
         <div class="deco-bg" aria-hidden="true">
-            <span class="deco d1">✦</span>
-            <span class="deco d2">✦</span>
-            <span class="deco d3">✦</span>
-            <span class="deco d4">✦</span>
-            <span class="deco d5">✦</span>
-            <span class="deco d6">✦</span>
+            <span class="deco d1">✦</span><span class="deco d2">✦</span>
+            <span class="deco d3">✦</span><span class="deco d4">✦</span>
+            <span class="deco d5">✦</span><span class="deco d6">✦</span>
         </div>
-
         <div class="main-eyebrow">
             <span class="eyebrow-tag">📖 이번 생은 갓생 × 송현고 2-5반</span>
         </div>
-
         <div class="main-titles">
             <h1 class="main-headline">내 연애 촉은<br>어느 정도일까?</h1>
             <p class="main-sub">나 빼고 다 썸타는 우리 반?<br>얽히고설킨 묘한 기류 속에서 내 눈치 레벨을 측정해 보자!</p>
         </div>
-
         <div class="character-slider-wrap">
-            <p class="slider-hint">💬 캐릭터 카드를 터치해서 소개 확인! 좌우 스와이프</p>
+            <p class="slider-hint">💬 캐릭터 카드를 터치하면 소개가 열려요!</p>
             <div class="character-slider" id="character-slider"></div>
         </div>
-
         <div class="main-cta">
             <button class="btn-start" onclick="startTest()">
                 <span class="btn-label">관찰 시작하기</span>
@@ -44,14 +43,27 @@
             </button>
             <p class="cta-sub">총 10문항 · 약 3분 소요</p>
         </div>
-
     </section>
+
+    <!-- 캐릭터 상세 모달 -->
+    <div class="char-modal-overlay" id="char-modal" onclick="closeCharModal(event)">
+        <div class="char-modal-card" onclick="event.stopPropagation()">
+            <div class="char-modal-img" id="char-modal-img"></div>
+            <div class="char-modal-body">
+                <h3 class="char-modal-name" id="char-modal-name"></h3>
+                <p class="char-modal-desc" id="char-modal-desc"></p>
+            </div>
+            <button class="char-modal-close" onclick="closeCharModal()">✕</button>
+        </div>
+    </div>
 
     <!-- 📝 테스트 화면 -->
     <section id="test-screen" class="screen">
-
         <div class="test-header">
-            <span class="q-num" id="q-num">Q1 / 10</span>
+            <div class="test-header-row">
+                <button class="btn-back" onclick="goBack()">← 이전</button>
+                <span class="q-num" id="q-num">Q1 / 10</span>
+            </div>
             <div class="progress-wrap">
                 <div class="progress-bar">
                     <div class="progress" id="progress"></div>
@@ -59,17 +71,21 @@
             </div>
         </div>
 
-        <div class="image-container" id="image-container" onclick="toggleQuestionImage()">
-            <img id="q-img1" src="" alt="scene 1">
-            <img id="q-img2" src="" alt="scene 2">
-            <div class="scene-badge" id="scene-badge">장면 1 / 2</div>
-            <div class="skip-hint" id="skip-hint">터치해서 전환 🔄</div>
+        <div id="test-content">
+            <div class="image-container" id="image-container" onclick="toggleQuestionImage()">
+                <img id="q-img1" src="" alt="scene 1">
+                <img id="q-img2" src="" alt="scene 2">
+                <div class="scene-badge" id="scene-badge">장면 1 / 2</div>
+                <div class="skip-hint" id="skip-hint">터치해서 전환 🔄</div>
+            </div>
+
+            <div class="question-memo">
+                <span class="memo-label">🔍 어떻게 생각해?</span>
+                <p id="q-text"></p>
+            </div>
+
+            <div class="choices" id="choices"></div>
         </div>
-
-        <p class="question-text" id="q-text"></p>
-
-        <div class="choices" id="choices"></div>
-
     </section>
 
     <!-- ⏳ 로딩 화면 -->
@@ -88,16 +104,12 @@
     <!-- 🎉 결과 화면 -->
     <section id="result-screen" class="screen">
         <canvas id="confetti-canvas"></canvas>
-
         <div class="result-header">
             <p class="result-eyebrow">✨ 분석 완료</p>
             <h1 class="result-title" id="r-title"></h1>
         </div>
-
         <img id="r-img" src="" alt="결과 이미지" class="result-image">
-
         <div class="result-desc" id="r-desc"></div>
-
         <div class="book-section">
             <p class="book-label">📚 맞춤 도서 추천</p>
             <p class="book-desc" id="r-book-desc"></p>
@@ -106,9 +118,7 @@
                 『이번 생은 갓생』 자세히 보기 →
             </button>
         </div>
-
-        <button class="btn-retry" onclick="location.reload()">🔄 테스트 다시하기</button>
-
+        <button class="btn-retry" onclick="retryTest()">🔄 테스트 다시하기</button>
     </section>
 
 </div>
