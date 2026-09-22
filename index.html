@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>내 연애 촉은 어느 정도일까? | 송현고 과몰입 추리 테스트</title>
 
-    <!-- 타이틀용 Black Han Sans + 강조용 Jua -->
+    <!-- 타이틀: Noto Serif KR (로맨스 웹툰 명조) / 메모 필기체: Nanum Pen Script -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Jua&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 
-    <!-- 본문용 Pretendard -->
+    <!-- 본문: Pretendard -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css">
 
     <link rel="stylesheet" href="style.css">
@@ -45,15 +45,22 @@
         </div>
     </section>
 
-    <!-- 캐릭터 상세 모달 -->
+    <!-- 캐릭터 상세 모달 (좌우 스와이프 지원) -->
     <div class="char-modal-overlay" id="char-modal" onclick="closeCharModal(event)">
         <div class="char-modal-card" onclick="event.stopPropagation()">
-            <div class="char-modal-img" id="char-modal-img"></div>
+            <div class="char-modal-img" id="char-modal-img">
+                <!-- 좌우 화살표 -->
+                <button class="modal-nav modal-prev" onclick="modalPrev()">‹</button>
+                <button class="modal-nav modal-next" onclick="modalNext()">›</button>
+                <!-- 닫기 -->
+                <button class="char-modal-close" onclick="closeCharModal()">✕</button>
+                <!-- 캐릭터 도트 인디케이터 -->
+                <div class="modal-dots" id="modal-dots"></div>
+            </div>
             <div class="char-modal-body">
                 <h3 class="char-modal-name" id="char-modal-name"></h3>
                 <p class="char-modal-desc" id="char-modal-desc"></p>
             </div>
-            <button class="char-modal-close" onclick="closeCharModal()">✕</button>
         </div>
     </div>
 
@@ -70,7 +77,6 @@
                 </div>
             </div>
         </div>
-
         <div id="test-content">
             <div class="image-container" id="image-container" onclick="toggleQuestionImage()">
                 <img id="q-img1" src="" alt="scene 1">
@@ -78,12 +84,10 @@
                 <div class="scene-badge" id="scene-badge">장면 1 / 2</div>
                 <div class="skip-hint" id="skip-hint">터치해서 전환 🔄</div>
             </div>
-
             <div class="question-memo">
                 <span class="memo-label">🔍 어떻게 생각해?</span>
                 <p id="q-text"></p>
             </div>
-
             <div class="choices" id="choices"></div>
         </div>
     </section>
