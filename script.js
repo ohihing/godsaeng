@@ -1,4 +1,3 @@
-// 캐릭터 도감 데이터
 const characters = [
     { id: 1, img: 'assets/c_001.png', name: '이은성', desc: '교실 뒷자리의 조용한 프로 관찰자. 중학교 때 짝사랑했던 그 애가 전학을 오면서 일상이 흔들리기 시작했다?' },
     { id: 2, img: 'assets/c_002.png', name: '도유진', desc: '전학 오자마자 인싸 등극! 모두에게 다정하지만, 그의 시선이 향하는 곳엔 늘 예상치 못한 \'그 사람\'이 있다.' },
@@ -7,8 +6,6 @@ const characters = [
     { id: 5, img: 'assets/c_005.jpg', name: '윤해수', desc: '빈틈없는 송현고 최고 여신. 남 일에 무관심한 척하면서 우리 반 기류를 제일 정확하게 꿰뚫어 본다.' }
 ];
 
-// 문항 데이터 (총 10문항)
-// B(정답/통찰): 10점, A(오답/과몰입): 5점, C(오답/둔감): 0점
 const questions = [
     {
         q: "나른한 문학 시간, 얼굴 천재 전학생 유진이가 자꾸 우리 분단 쪽을 빤히 쳐다본다. 그 시선의 끝엔 학교 여신 '해수', 인싸 연극부장 '재현', 그리고 조용한 '은성'이가 있다. 당신의 촉이 발동하는 방향은?",
@@ -102,42 +99,30 @@ const questions = [
     }
 ];
 
-// 결과 데이터 로직
 const results = [
-    {
-        title: "눈치 만렙 인간 CCTV<br>'인간 연애 상담소'", img: "assets/a1.png",
-        desc: "친구들이 매일 디엠(DM) 캡처를 보내며 연애 상담을 요청하는 타입! 겉으로 보이는 말이나 행동 뒤에 숨겨진 '찐텐'을 귀신같이 캐치합니다. 교실에서 애들 눈빛 교환 한 번만 봐도 타이머를 재고 있죠. 뻔한 로맨스 전개에 절대 속지 않는 완벽한 연애 눈치를 가졌습니다.",
-        book: "남들 속마음 꿰뚫어 보는 재미로 사는 당신! 『이번 생은 갓생』을 읽는다면 얽히고설킨 아이들의 텐션과 숨겨진 속마음을 누구보다 빠르고 짜릿하게 찾아낼 수 있을 거예요."
-    },
-    {
-        title: "매의 눈과 과몰입의 환상 조합<br>'대리 설렘러'", img: "assets/a2.png",
-        desc: "누가 누구한테 호감 있는지는 대충 눈치채는 편! 하지만 가끔 거기에 내 상상력을 더해 스토리를 부풀리곤 합니다. 당사자들보다 옆에서 더 신나서 주접을 떨어주는 귀여운 프로 참견러입니다.",
-        book: "눈치와 상상력이 섞여 매일매일이 흥미진진한 당신! 소설 속 묘한 기류들을 당신만의 시선으로 추리하며 읽는다면 200% 과몰입할 수 있을 거예요."
-    },
-    {
-        title: "로맨스 필터 장착 완료!<br>'과몰입 급발진러'", img: "assets/a3.png",
-        desc: "현실에서도 웹툰 주인공 필터 장착 완료! 남녀가 실수로 손만 스쳐도 머릿속에서 이미 웹툰 100화 뚝딱 그려내는 진성 과몰입러입니다. 정작 본인 연애보다 남의 연애에 더 진심이고, 떡밥을 어떻게든 주워 먹는 걸 즐깁니다.",
-        book: "평범한 일상도 로맨스로 만드는 엄청난 필터를 가진 당신에게 강력 추천! 『이번 생은 갓생』에는 당신의 과몰입 스위치를 단숨에 켜줄 아슬아슬한 관계성 맛집 요소들이 가득해요."
-    },
-    {
-        title: "핀트가 살짝 어긋난<br>'우당탕탕 연애 코치'", img: "assets/a4.png",
-        desc: "나름대로 친구들 연애를 도와주려고 눈치를 살피지만, 묘하게 핀트가 어긋나는 타입! 냅다 직진했다가 타이밍을 못 맞춰서 갑분싸를 만들기도 합니다. 예리한 촉보다는 맑고 통통 튀는 성격 자체가 매력인 사람이에요.",
-        book: "남 일에 진심으로 공감해 주는 따뜻한 마음을 가진 당신! 주인공들의 서툰 감정 표현과 엇갈림을 따라가다 보면, 어느새 연애 눈치가 쑥쑥 자라난 자신을 발견할 수 있을 거예요."
-    },
-    {
-        title: "로맨스보다 내 인생이 중요해!<br>'철벽 마이웨이 둔감러'", img: "assets/a5.png",
-        desc: "반 애들 다 아는 썸도 나 혼자만 끝까지 모르는 타입. 폭풍 플러팅을 쳐도 '오, 텐션 짱 좋네?' 하고 넘겨버리는 타격감 제로 철벽러입니다. 남의 연애사보다는 오늘의 급식과 내 친구들이 훨씬 중요한 쿨한 마이웨이!",
-        book: "잠든 연애 세포마저 확 깨워줄 책! 『이번 생은 갓생』은 단순한 로맨스가 아니라 10대들의 찐 우정과 치열한 고민들이 꽉 차 있어서, 당신마저 어느새 푹 빠져들게 만들 거예요."
-    }
+    { title: "눈치 만렙 인간 CCTV<br>'인간 연애 상담소'", img: "assets/a1.png", desc: "친구들이 매일 디엠(DM) 캡처를 보내며 연애 상담을 요청하는 타입! 겉으로 보이는 말이나 행동 뒤에 숨겨진 '찐텐'을 귀신같이 캐치합니다. 교실에서 애들 눈빛 교환 한 번만 봐도 타이머를 재고 있죠. 뻔한 로맨스 전개에 절대 속지 않는 완벽한 연애 눈치를 가졌습니다.", book: "남들 속마음 꿰뚫어 보는 재미로 사는 당신! 『이번 생은 갓생』을 읽는다면 얽히고설킨 아이들의 텐션과 숨겨진 속마음을 누구보다 빠르고 짜릿하게 찾아낼 수 있을 거예요." },
+    { title: "매의 눈과 과몰입의 환상 조합<br>'대리 설렘러'", img: "assets/a2.png", desc: "누가 누구한테 호감 있는지는 대충 눈치채는 편! 하지만 가끔 거기에 내 상상력을 더해 스토리를 부풀리곤 합니다. 당사자들보다 옆에서 더 신나서 주접을 떨어주는 귀여운 프로 참견러입니다.", book: "눈치와 상상력이 섞여 매일매일이 흥미진진한 당신! 소설 속 묘한 기류들을 당신만의 시선으로 추리하며 읽는다면 200% 과몰입할 수 있을 거예요." },
+    { title: "로맨스 필터 장착 완료!<br>'과몰입 급발진러'", img: "assets/a3.png", desc: "현실에서도 웹툰 주인공 필터 장착 완료! 남녀가 실수로 손만 스쳐도 머릿속에서 이미 웹툰 100화 뚝딱 그려내는 진성 과몰입러입니다. 정작 본인 연애보다 남의 연애에 더 진심이고, 떡밥을 어떻게든 주워 먹는 걸 즐깁니다.", book: "평범한 일상도 로맨스로 만드는 엄청난 필터를 가진 당신에게 강력 추천! 『이번 생은 갓생』에는 당신의 과몰입 스위치를 단숨에 켜줄 아슬아슬한 관계성 맛집 요소들이 가득해요." },
+    { title: "핀트가 살짝 어긋난<br>'우당탕탕 연애 코치'", img: "assets/a4.png", desc: "나름대로 친구들 연애를 도와주려고 눈치를 살피지만, 묘하게 핀트가 어긋나는 타입! 냅다 직진했다가 타이밍을 못 맞춰서 갑분싸를 만들기도 합니다. 예리한 촉보다는 맑고 통통 튀는 성격 자체가 매력인 사람이에요.", book: "남 일에 진심으로 공감해 주는 따뜻한 마음을 가진 당신! 주인공들의 서툰 감정 표현과 엇갈림을 따라가다 보면, 어느새 연애 눈치가 쑥쑥 자라난 자신을 발견할 수 있을 거예요." },
+    { title: "로맨스보다 내 인생이 중요해!<br>'철벽 마이웨이 둔감러'", img: "assets/a5.png", desc: "반 애들 다 아는 썸도 나 혼자만 끝까지 모르는 타입. 폭풍 플러팅을 쳐도 '오, 텐션 짱 좋네?' 하고 넘겨버리는 타격감 제로 철벽러입니다. 남의 연애사보다는 오늘의 급식과 내 친구들이 훨씬 중요한 쿨한 마이웨이!", book: "잠든 연애 세포마저 확 깨워줄 책! 『이번 생은 갓생』은 단순한 로맨스가 아니라 10대들의 찐 우정과 치열한 고민들이 꽉 차 있어서, 당신마저 어느새 푹 빠져들게 만들 거예요." }
 ];
 
 let currentQ = 0;
 let totalScore = 0;
-let imageTimeout;
+let slideIndex = 0;
+let slideInterval;
+let isSliderInteracting = false;
+let questionImageTimer;
+let isScene2 = false;
 
-// 초기화: 캐릭터 도감 세팅
 window.onload = () => {
+    initCharacterSlider();
+};
+
+// 1. 캐릭터 슬라이더 (도감) 생성 및 3초 자동 슬라이드 로직
+function initCharacterSlider() {
     const slider = document.getElementById('character-slider');
+    
     characters.forEach(c => {
         const card = document.createElement('div');
         card.className = 'char-card';
@@ -148,14 +133,47 @@ window.onload = () => {
                 <p>${c.desc}</p>
             </div>
         `;
-        // 터치 시 정보 토글
+        
         card.onclick = () => {
-            document.querySelectorAll('.char-card').forEach(el => el.classList.remove('open'));
-            card.classList.add('open');
+            if (card.classList.contains('open')) {
+                card.classList.remove('open');
+            } else {
+                document.querySelectorAll('.char-card').forEach(el => el.classList.remove('open'));
+                card.classList.add('open');
+            }
         };
         slider.appendChild(card);
     });
-};
+
+    // 3초 자동 슬라이드 함수
+    function startAutoSlide() {
+        if (isSliderInteracting) return;
+        stopAutoSlide();
+        slideInterval = setInterval(() => {
+            if (isSliderInteracting) return;
+            slideIndex++;
+            if (slideIndex >= characters.length) slideIndex = 0;
+            // 260(카드) + 20(간격) = 280 단위로 이동 (중앙 정렬 완벽 유지)
+            slider.scrollTo({ left: slideIndex * 280, behavior: 'smooth' });
+        }, 3000);
+    }
+    function stopAutoSlide() { clearInterval(slideInterval); }
+
+    // 유저가 터치/드래그 할 땐 자동 슬라이드 일시정지
+    slider.addEventListener('touchstart', () => { isSliderInteracting = true; stopAutoSlide(); }, {passive: true});
+    slider.addEventListener('touchend', () => { isSliderInteracting = false; startAutoSlide(); }, {passive: true});
+    slider.addEventListener('mousedown', () => { isSliderInteracting = true; stopAutoSlide(); });
+    slider.addEventListener('mouseup', () => { isSliderInteracting = false; startAutoSlide(); });
+    
+    // 유저가 직접 쓸어 넘기면(Scroll) slideIndex 번호를 그 위치에 맞게 업데이트
+    slider.addEventListener('scroll', () => {
+        if (isSliderInteracting) {
+            slideIndex = Math.round(slider.scrollLeft / 280);
+        }
+    }, {passive: true});
+
+    startAutoSlide(); // 시작!
+}
 
 function switchScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -169,38 +187,32 @@ function startTest() {
     renderQuestion();
 }
 
+// 2. 문항 렌더링 및 '제자리 크로스 페이드' 이미지 로직
 function renderQuestion() {
     const q = questions[currentQ];
     document.getElementById('q-num').innerText = `Q${currentQ + 1} / 10`;
     document.getElementById('progress').style.width = `${((currentQ + 1) / 10) * 100}%`;
     document.getElementById('q-text').innerHTML = q.q;
     
-    // 이미지 세팅
-    const img1 = document.getElementById('q-img1');
-    const img2 = document.getElementById('q-img2');
-    const skipHint = document.getElementById('skip-hint');
+    // 이미지 세팅 초기화
+    const container = document.getElementById('image-container');
+    container.classList.remove('show-scene2'); 
+    isScene2 = false;
+    document.getElementById('scene-badge').innerText = '장면 1 / 2';
     
-    img1.src = q.img1;
-    img2.src = q.img2;
+    document.getElementById('q-img1').src = q.img1;
+    document.getElementById('q-img2').src = q.img2;
     
-    // 초기화: 2번째 이미지는 숨김
-    img2.classList.add('hidden');
-    img2.style.height = '0';
-    skipHint.style.display = 'block';
-
-    // 2.5초 뒤 두 번째 이미지 등장
-    clearTimeout(imageTimeout);
-    imageTimeout = setTimeout(() => {
-        showSecondImage();
+    // 2.5초 뒤 2번째 장면 스르륵 전환
+    clearTimeout(questionImageTimer);
+    questionImageTimer = setTimeout(() => {
+        switchToScene2();
     }, 2500);
 
-    // 선택지 버튼 렌더링 (순서를 랜덤으로 섞어서 렌더링)
+    // 선택지 버튼
     const choicesDiv = document.getElementById('choices');
     choicesDiv.innerHTML = '';
-    
-    // 버튼 섞기
     let shuffledChoices = [...q.choices].sort(() => Math.random() - 0.5);
-    
     shuffledChoices.forEach(c => {
         const btn = document.createElement('button');
         btn.className = 'choice-btn';
@@ -210,49 +222,47 @@ function renderQuestion() {
     });
 }
 
-function showSecondImage() {
-    const img2 = document.getElementById('q-img2');
-    img2.classList.remove('hidden');
-    img2.style.height = 'auto';
-    document.getElementById('skip-hint').style.display = 'none';
+// 장면 전환 함수들
+function switchToScene2() {
+    document.getElementById('image-container').classList.add('show-scene2');
+    isScene2 = true;
+    document.getElementById('scene-badge').innerText = '장면 2 / 2';
+}
+function switchToScene1() {
+    document.getElementById('image-container').classList.remove('show-scene2');
+    isScene2 = false;
+    document.getElementById('scene-badge').innerText = '장면 1 / 2';
 }
 
-// 이미지 영역 터치 시 스킵
-function skipImageDelay() {
-    clearTimeout(imageTimeout);
-    showSecondImage();
+// 이미지 박스를 터치했을 때 수동으로 장면 전환 (토글)
+function toggleQuestionImage() {
+    clearTimeout(questionImageTimer); // 자동 전환 타이머 끄기
+    if (isScene2) switchToScene1();
+    else switchToScene2();
 }
 
 function selectAnswer(score) {
     totalScore += score;
     currentQ++;
-    
-    if (currentQ < questions.length) {
-        renderQuestion();
-    } else {
-        showResult();
-    }
+    if (currentQ < questions.length) renderQuestion();
+    else showResult();
 }
 
 function showResult() {
     switchScreen('loading-screen');
-    
     setTimeout(() => {
         let type = 0;
-        // 총점 100점 기준 (골고루 분포)
-        if (totalScore >= 85) type = 0;       // Type 1
-        else if (totalScore >= 65) type = 1;  // Type 2
-        else if (totalScore >= 45) type = 2;  // Type 3
-        else if (totalScore >= 20) type = 3;  // Type 4
-        else type = 4;                        // Type 5
+        if (totalScore >= 85) type = 0;
+        else if (totalScore >= 65) type = 1;
+        else if (totalScore >= 45) type = 2;
+        else if (totalScore >= 20) type = 3;
+        else type = 4;
         
         const r = results[type];
-        
         document.getElementById('r-title').innerHTML = r.title;
         document.getElementById('r-img').src = r.img;
         document.getElementById('r-desc').innerHTML = r.desc;
         document.getElementById('r-book-desc').innerHTML = r.book;
-        
         switchScreen('result-screen');
-    }, 2000); // 2초 로딩
+    }, 2000);
 }
