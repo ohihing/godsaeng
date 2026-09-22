@@ -3,72 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>내 연애 촉은 어느 정도일까? 송현고 과몰입 추리 테스트</title>
+    <title>내 연애 촉은 어느 정도일까? | 송현고 과몰입 추리 테스트</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
 </head>
 <body>
-    <div id="app">
-        <section id="main-screen" class="screen active">
-            <div class="main-titles">
-                <h2>송현고 2학년 5반 관찰 일지</h2>
-                <h1>내 연애 촉은<br>어느 정도일까?</h1>
-                <p>나 빼고 다 썸타는 우리 반?<br>얽히고설킨 묘한 기류 속에서 내 눈치 레벨을 측정해 보자!</p>
-            </div>
-            
-            <div class="character-slider-wrap">
-                <p class="slider-hint">👆 인물 카드를 터치하면 소개가 열려요! (좌우 스와이프)</p>
-                <div class="character-slider" id="character-slider">
-                    </div>
-            </div>
+<div id="app">
 
-            <button class="btn-start" onclick="startTest()">관찰 시작하기 🕵️‍♀️</button>
-        </section>
+    <!-- ✦ 메인 화면 -->
+    <section id="main-screen" class="screen active">
 
-        <section id="test-screen" class="screen">
-            <div class="progress-bar">
-                <div class="progress" id="progress"></div>
-            </div>
-            <div class="question-number" id="q-num">Q1.</div>
-            
-            <div class="image-container" id="image-container" onclick="toggleQuestionImage()">
-                <img id="q-img1" src="" alt="scene 1">
-                <img id="q-img2" src="" alt="scene 2">
-                <div class="scene-badge" id="scene-badge">장면 1 / 2</div>
-                <div class="skip-hint" id="skip-hint">터치해서 화면 전환 🔄</div>
-            </div>
+        <div class="deco-bg" aria-hidden="true">
+            <span class="deco d1">✦</span>
+            <span class="deco d2">✦</span>
+            <span class="deco d3">✦</span>
+            <span class="deco d4">✦</span>
+            <span class="deco d5">✦</span>
+            <span class="deco d6">✦</span>
+        </div>
 
-            <div class="question-text" id="q-text">질문 텍스트</div>
-            
-            <div class="choices" id="choices">
+        <div class="main-eyebrow">
+            <span class="eyebrow-tag">📖 이번 생은 갓생 × 송현고 2-5반</span>
+        </div>
+
+        <div class="main-titles">
+            <h1 class="main-headline">내 연애 촉은<br>어느 정도일까?</h1>
+            <p class="main-sub">나 빼고 다 썸타는 우리 반?<br>얽히고설킨 묘한 기류 속에서 내 눈치 레벨을 측정해 보자!</p>
+        </div>
+
+        <div class="character-slider-wrap">
+            <p class="slider-hint">💬 캐릭터 카드를 터치해서 소개 확인! 좌우 스와이프</p>
+            <div class="character-slider" id="character-slider"></div>
+        </div>
+
+        <div class="main-cta">
+            <button class="btn-start" onclick="startTest()">
+                <span class="btn-label">관찰 시작하기</span>
+                <span class="btn-emoji">🕵️‍♀️</span>
+            </button>
+            <p class="cta-sub">총 10문항 · 약 3분 소요</p>
+        </div>
+
+    </section>
+
+    <!-- 📝 테스트 화면 -->
+    <section id="test-screen" class="screen">
+
+        <div class="test-header">
+            <span class="q-num" id="q-num">Q1 / 10</span>
+            <div class="progress-wrap">
+                <div class="progress-bar">
+                    <div class="progress" id="progress"></div>
                 </div>
-        </section>
-
-        <section id="loading-screen" class="screen">
-            <div class="loader"></div>
-            <h2>당신의 연애 촉 분석 중...</h2>
-            <p>과연 내 눈치 레벨은?</p>
-        </section>
-
-        <section id="result-screen" class="screen">
-            <h3 class="result-subtitle">당신의 연애 촉 분석 결과</h3>
-            <h1 class="result-title" id="r-title">결과 타이틀</h1>
-            
-            <img id="r-img" src="" alt="결과 이미지" class="result-image">
-            
-            <div class="result-desc" id="r-desc">결과 설명</div>
-
-            <div class="book-recommendation">
-                <h3>📖 당신을 위한 맞춤 도서 추천</h3>
-                <p id="r-book-desc">책 추천 멘트</p>
-                <img src="book.png" alt="이번 생은 갓생" class="assets/book-image">
-                <button class="btn-book" onclick="window.open('https://도서구매링크를_넣어주세요.com')">『이번 생은 갓생』 자세히 보기</button>
             </div>
+        </div>
 
-            <button class="btn-retry" onclick="location.reload()">테스트 다시하기 🔄</button>
-        </section>
-    </div>
-    
-    <script src="script.js"></script>
+        <div class="image-container" id="image-container" onclick="toggleQuestionImage()">
+            <img id="q-img1" src="" alt="scene 1">
+            <img id="q-img2" src="" alt="scene 2">
+            <div class="scene-badge" id="scene-badge">장면 1 / 2</div>
+            <div class="skip-hint" id="skip-hint">터치해서 전환 🔄</div>
+        </div>
+
+        <p class="question-text" id="q-text"></p>
+
+        <div class="choices" id="choices"></div>
+
+    </section>
+
+    <!-- ⏳ 로딩 화면 -->
+    <section id="loading-screen" class="screen">
+        <div class="loading-inner">
+            <div class="loading-hearts">
+                <span class="lh lh1">💗</span>
+                <span class="lh lh2">💜</span>
+                <span class="lh lh3">💗</span>
+            </div>
+            <p class="loading-title">연애 촉 분석 중...</p>
+            <p class="loading-sub">과연 내 눈치 레벨은? 🔍</p>
+        </div>
+    </section>
+
+    <!-- 🎉 결과 화면 -->
+    <section id="result-screen" class="screen">
+        <canvas id="confetti-canvas"></canvas>
+
+        <div class="result-header">
+            <p class="result-eyebrow">✨ 분석 완료</p>
+            <h1 class="result-title" id="r-title"></h1>
+        </div>
+
+        <img id="r-img" src="" alt="결과 이미지" class="result-image">
+
+        <div class="result-desc" id="r-desc"></div>
+
+        <div class="book-section">
+            <p class="book-label">📚 맞춤 도서 추천</p>
+            <p class="book-desc" id="r-book-desc"></p>
+            <img src="assets/book.png" alt="이번 생은 갓생" class="book-image">
+            <button class="btn-book" onclick="window.open('https://도서구매링크를_넣어주세요.com')">
+                『이번 생은 갓생』 자세히 보기 →
+            </button>
+        </div>
+
+        <button class="btn-retry" onclick="location.reload()">🔄 테스트 다시하기</button>
+
+    </section>
+
+</div>
+<script src="script.js"></script>
 </body>
 </html>
