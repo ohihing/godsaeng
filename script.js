@@ -1,3 +1,6 @@
+/* ===================================
+   데이터: 캐릭터 / 문항 / 결과
+=================================== */
 const characters = [
     { id: 1, img: 'assets/c_001.png', name: '이은성', desc: '교실 뒷자리의 조용한 프로 관찰자. 중학교 때 짝사랑했던 그 애가 전학을 오면서 일상이 흔들리기 시작했다?' },
     { id: 2, img: 'assets/c_002.png', name: '도유진', desc: '전학 오자마자 인싸 등극! 모두에게 다정하지만, 그의 시선이 향하는 곳엔 늘 예상치 못한 \'그 사람\'이 있다.' },
@@ -94,19 +97,47 @@ const questions = [
         choices: [
             { text: "당연히 유진이가 은성이 기분 풀어주려고 몰래 두고 간 거지! 무심한 듯 다정한 스윗 츤데레 남주!", score: 5 },
             { text: "수아가 둔 거야. 틱틱거리며 멀어졌지만, 사실 화해하고 싶어서 예전에 같이 먹던 딸기바를 슬쩍 둔 거지.", score: 10 },
-            { text: "아, 나도 매점 가서 딸기바나 사 먹을까? 누가 둔 게 뭐가 중요해, 아침부터 공짜 간식 개이득!", score: 0 }
+            { text: "아, 나도 매점 가서 딸기바나 사 먹을까? 누가 둔 게 뭐가 중요해, 아침부터 공짜 간식!", score: 0 }
         ]
     }
 ];
 
 const results = [
-    { title: "눈치 만렙 인간 CCTV<br>'인간 연애 상담소'", img: "assets/a1.png", desc: "친구들이 매일 디엠(DM) 캡처를 보내며 연애 상담을 요청하는 타입! 겉으로 보이는 말이나 행동 뒤에 숨겨진 '찐텐'을 귀신같이 캐치합니다. 교실에서 애들 눈빛 교환 한 번만 봐도 타이머를 재고 있죠. 뻔한 로맨스 전개에 절대 속지 않는 완벽한 연애 눈치를 가졌습니다.", book: "남들 속마음 꿰뚫어 보는 재미로 사는 당신! 『이번 생은 갓생』을 읽는다면 얽히고설킨 아이들의 텐션과 숨겨진 속마음을 누구보다 빠르고 짜릿하게 찾아낼 수 있을 거예요." },
-    { title: "매의 눈과 과몰입의 환상 조합<br>'대리 설렘러'", img: "assets/a2.png", desc: "누가 누구한테 호감 있는지는 대충 눈치채는 편! 하지만 가끔 거기에 내 상상력을 더해 스토리를 부풀리곤 합니다. 당사자들보다 옆에서 더 신나서 주접을 떨어주는 귀여운 프로 참견러입니다.", book: "눈치와 상상력이 섞여 매일매일이 흥미진진한 당신! 소설 속 묘한 기류들을 당신만의 시선으로 추리하며 읽는다면 200% 과몰입할 수 있을 거예요." },
-    { title: "로맨스 필터 장착 완료!<br>'과몰입 급발진러'", img: "assets/a3.png", desc: "현실에서도 웹툰 주인공 필터 장착 완료! 남녀가 실수로 손만 스쳐도 머릿속에서 이미 웹툰 100화 뚝딱 그려내는 진성 과몰입러입니다. 정작 본인 연애보다 남의 연애에 더 진심이고, 떡밥을 어떻게든 주워 먹는 걸 즐깁니다.", book: "평범한 일상도 로맨스로 만드는 엄청난 필터를 가진 당신에게 강력 추천! 『이번 생은 갓생』에는 당신의 과몰입 스위치를 단숨에 켜줄 아슬아슬한 관계성 맛집 요소들이 가득해요." },
-    { title: "핀트가 살짝 어긋난<br>'우당탕탕 연애 코치'", img: "assets/a4.png", desc: "나름대로 친구들 연애를 도와주려고 눈치를 살피지만, 묘하게 핀트가 어긋나는 타입! 냅다 직진했다가 타이밍을 못 맞춰서 갑분싸를 만들기도 합니다. 예리한 촉보다는 맑고 통통 튀는 성격 자체가 매력인 사람이에요.", book: "남 일에 진심으로 공감해 주는 따뜻한 마음을 가진 당신! 주인공들의 서툰 감정 표현과 엇갈림을 따라가다 보면, 어느새 연애 눈치가 쑥쑥 자라난 자신을 발견할 수 있을 거예요." },
-    { title: "로맨스보다 내 인생이 중요해!<br>'철벽 마이웨이 둔감러'", img: "assets/a5.png", desc: "반 애들 다 아는 썸도 나 혼자만 끝까지 모르는 타입. 폭풍 플러팅을 쳐도 '오, 텐션 짱 좋네?' 하고 넘겨버리는 타격감 제로 철벽러입니다. 남의 연애사보다는 오늘의 급식과 내 친구들이 훨씬 중요한 쿨한 마이웨이!", book: "잠든 연애 세포마저 확 깨워줄 책! 『이번 생은 갓생』은 단순한 로맨스가 아니라 10대들의 찐 우정과 치열한 고민들이 꽉 차 있어서, 당신마저 어느새 푹 빠져들게 만들 거예요." }
+    {
+        title: "눈치 만렙 인간 CCTV<br>'인간 연애 상담소'",
+        img: "assets/a1.png",
+        desc: "친구들이 매일 DM 캡처를 보내며 연애 상담을 요청하는 타입! 겉으로 보이는 말이나 행동 뒤에 숨겨진 '찐텐'을 귀신같이 캐치합니다. 교실에서 애들 눈빛 교환 한 번만 봐도 타이머를 재고 있죠. 뻔한 로맨스 전개에 절대 속지 않는 완벽한 연애 눈치를 가졌습니다.",
+        book: "남들 속마음 꿰뚫어 보는 재미로 사는 당신! 『이번 생은 갓생』을 읽는다면 얽히고설킨 아이들의 텐션과 숨겨진 속마음을 누구보다 빠르고 짜릿하게 찾아낼 수 있을 거예요."
+    },
+    {
+        title: "매의 눈과 과몰입의 환상 조합<br>'대리 설렘러'",
+        img: "assets/a2.png",
+        desc: "누가 누구한테 호감 있는지는 대충 눈치채는 편! 하지만 가끔 거기에 내 상상력을 더해 스토리를 부풀리곤 합니다. 당사자들보다 옆에서 더 신나서 주접을 떨어주는 귀여운 프로 참견러입니다.",
+        book: "눈치와 상상력이 섞여 매일매일이 흥미진진한 당신! 소설 속 묘한 기류들을 당신만의 시선으로 추리하며 읽는다면 200% 과몰입할 수 있을 거예요."
+    },
+    {
+        title: "로맨스 필터 장착 완료!<br>'과몰입 급발진러'",
+        img: "assets/a3.png",
+        desc: "현실에서도 웹툰 주인공 필터 장착 완료! 남녀가 실수로 손만 스쳐도 머릿속에서 이미 웹툰 100화 뚝딱 그려내는 진성 과몰입러입니다. 정작 본인 연애보다 남의 연애에 더 진심이고, 떡밥을 어떻게든 주워 먹는 걸 즐깁니다.",
+        book: "평범한 일상도 로맨스로 만드는 엄청난 필터를 가진 당신에게 강력 추천! 『이번 생은 갓생』에는 당신의 과몰입 스위치를 단숨에 켜줄 아슬아슬한 관계성 맛집 요소들이 가득해요."
+    },
+    {
+        title: "핀트가 살짝 어긋난<br>'우당탕탕 연애 코치'",
+        img: "assets/a4.png",
+        desc: "나름대로 친구들 연애를 도와주려고 눈치를 살피지만, 묘하게 핀트가 어긋나는 타입! 냅다 직진했다가 타이밍을 못 맞춰서 갑분싸를 만들기도 합니다. 예리한 촉보다는 맑고 통통 튀는 성격 자체가 매력인 사람이에요.",
+        book: "남 일에 진심으로 공감해 주는 따뜻한 마음을 가진 당신! 주인공들의 서툰 감정 표현과 엇갈림을 따라가다 보면, 어느새 연애 눈치가 쑥쑥 자라난 자신을 발견할 수 있을 거예요."
+    },
+    {
+        title: "로맨스보다 내 인생이 중요해!<br>'철벽 마이웨이 둔감러'",
+        img: "assets/a5.png",
+        desc: "반 애들 다 아는 썸도 나 혼자만 끝까지 모르는 타입. 폭풍 플러팅을 쳐도 '오, 텐션 짱 좋네?' 하고 넘겨버리는 타격감 제로 철벽러입니다. 남의 연애사보다는 오늘의 급식과 내 친구들이 훨씬 중요한 쿨한 마이웨이!",
+        book: "잠든 연애 감각마저 확 깨워줄 책! 『이번 생은 갓생』은 단순한 로맨스가 아니라 10대들의 찐 우정과 치열한 고민들이 꽉 차 있어서, 당신마저 어느새 푹 빠져들게 만들 거예요."
+    }
 ];
 
+/* ===================================
+   상태 변수
+=================================== */
 let currentQ = 0;
 let totalScore = 0;
 let slideIndex = 0;
@@ -115,14 +146,19 @@ let isSliderInteracting = false;
 let questionImageTimer;
 let isScene2 = false;
 
+/* ===================================
+   초기화
+=================================== */
 window.onload = () => {
     initCharacterSlider();
 };
 
-// 1. 캐릭터 슬라이더 (도감) 생성 및 3초 자동 슬라이드 로직
+/* ===================================
+   1. 캐릭터 슬라이더
+=================================== */
 function initCharacterSlider() {
     const slider = document.getElementById('character-slider');
-    
+
     characters.forEach(c => {
         const card = document.createElement('div');
         card.className = 'char-card';
@@ -133,7 +169,6 @@ function initCharacterSlider() {
                 <p>${c.desc}</p>
             </div>
         `;
-        
         card.onclick = () => {
             if (card.classList.contains('open')) {
                 card.classList.remove('open');
@@ -145,7 +180,7 @@ function initCharacterSlider() {
         slider.appendChild(card);
     });
 
-    // 3초 자동 슬라이드 함수
+    // 자동 슬라이드 (카드 너비 240 + gap 16 = 256)
     function startAutoSlide() {
         if (isSliderInteracting) return;
         stopAutoSlide();
@@ -153,33 +188,33 @@ function initCharacterSlider() {
             if (isSliderInteracting) return;
             slideIndex++;
             if (slideIndex >= characters.length) slideIndex = 0;
-            // 260(카드) + 20(간격) = 280 단위로 이동 (중앙 정렬 완벽 유지)
-            slider.scrollTo({ left: slideIndex * 280, behavior: 'smooth' });
+            slider.scrollTo({ left: slideIndex * 256, behavior: 'smooth' });
         }, 3000);
     }
     function stopAutoSlide() { clearInterval(slideInterval); }
 
-    // 유저가 터치/드래그 할 땐 자동 슬라이드 일시정지
-    slider.addEventListener('touchstart', () => { isSliderInteracting = true; stopAutoSlide(); }, {passive: true});
-    slider.addEventListener('touchend', () => { isSliderInteracting = false; startAutoSlide(); }, {passive: true});
-    slider.addEventListener('mousedown', () => { isSliderInteracting = true; stopAutoSlide(); });
-    slider.addEventListener('mouseup', () => { isSliderInteracting = false; startAutoSlide(); });
-    
-    // 유저가 직접 쓸어 넘기면(Scroll) slideIndex 번호를 그 위치에 맞게 업데이트
-    slider.addEventListener('scroll', () => {
-        if (isSliderInteracting) {
-            slideIndex = Math.round(slider.scrollLeft / 280);
-        }
-    }, {passive: true});
+    slider.addEventListener('touchstart', () => { isSliderInteracting = true; stopAutoSlide(); }, { passive: true });
+    slider.addEventListener('touchend',   () => { isSliderInteracting = false; startAutoSlide(); }, { passive: true });
+    slider.addEventListener('mousedown',  () => { isSliderInteracting = true; stopAutoSlide(); });
+    slider.addEventListener('mouseup',    () => { isSliderInteracting = false; startAutoSlide(); });
+    slider.addEventListener('scroll',     () => {
+        if (isSliderInteracting) slideIndex = Math.round(slider.scrollLeft / 256);
+    }, { passive: true });
 
-    startAutoSlide(); // 시작!
+    startAutoSlide();
 }
 
+/* ===================================
+   2. 화면 전환
+=================================== */
 function switchScreen(screenId) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(screenId).classList.add('active');
 }
 
+/* ===================================
+   3. 테스트 시작
+=================================== */
 function startTest() {
     currentQ = 0;
     totalScore = 0;
@@ -187,42 +222,47 @@ function startTest() {
     renderQuestion();
 }
 
-// 2. 문항 렌더링 및 '제자리 크로스 페이드' 이미지 로직
+/* ===================================
+   4. 문항 렌더링
+=================================== */
 function renderQuestion() {
     const q = questions[currentQ];
-    document.getElementById('q-num').innerText = `Q${currentQ + 1} / 10`;
-    document.getElementById('progress').style.width = `${((currentQ + 1) / 10) * 100}%`;
+
+    document.getElementById('q-num').innerText = `Q${currentQ + 1} / ${questions.length}`;
+    document.getElementById('progress').style.width = `${((currentQ + 1) / questions.length) * 100}%`;
     document.getElementById('q-text').innerHTML = q.q;
-    
-    // 이미지 세팅 초기화
+
+    // 이미지 초기화
     const container = document.getElementById('image-container');
-    container.classList.remove('show-scene2'); 
+    container.classList.remove('show-scene2');
     isScene2 = false;
     document.getElementById('scene-badge').innerText = '장면 1 / 2';
-    
     document.getElementById('q-img1').src = q.img1;
     document.getElementById('q-img2').src = q.img2;
-    
-    // 2.5초 뒤 2번째 장면 스르륵 전환
-    clearTimeout(questionImageTimer);
-    questionImageTimer = setTimeout(() => {
-        switchToScene2();
-    }, 2500);
 
-    // 선택지 버튼
+    // 2.5초 후 자동으로 장면 2로 전환
+    clearTimeout(questionImageTimer);
+    questionImageTimer = setTimeout(switchToScene2, 2500);
+
+    // 선택지 렌더링 (셔플)
     const choicesDiv = document.getElementById('choices');
     choicesDiv.innerHTML = '';
-    let shuffledChoices = [...q.choices].sort(() => Math.random() - 0.5);
-    shuffledChoices.forEach(c => {
+    const shuffled = [...q.choices].sort(() => Math.random() - 0.5);
+    shuffled.forEach(c => {
         const btn = document.createElement('button');
         btn.className = 'choice-btn';
         btn.innerText = c.text;
-        btn.onclick = () => selectAnswer(c.score);
+        btn.onclick = (e) => {
+            addRipple(btn, e);
+            setTimeout(() => selectAnswer(c.score), 220);
+        };
         choicesDiv.appendChild(btn);
     });
 }
 
-// 장면 전환 함수들
+/* ===================================
+   5. 장면 전환
+=================================== */
 function switchToScene2() {
     document.getElementById('image-container').classList.add('show-scene2');
     isScene2 = true;
@@ -233,14 +273,15 @@ function switchToScene1() {
     isScene2 = false;
     document.getElementById('scene-badge').innerText = '장면 1 / 2';
 }
-
-// 이미지 박스를 터치했을 때 수동으로 장면 전환 (토글)
 function toggleQuestionImage() {
-    clearTimeout(questionImageTimer); // 자동 전환 타이머 끄기
+    clearTimeout(questionImageTimer);
     if (isScene2) switchToScene1();
     else switchToScene2();
 }
 
+/* ===================================
+   6. 답변 선택
+=================================== */
 function selectAnswer(score) {
     totalScore += score;
     currentQ++;
@@ -248,21 +289,110 @@ function selectAnswer(score) {
     else showResult();
 }
 
+/* ===================================
+   7. 결과 화면
+=================================== */
 function showResult() {
     switchScreen('loading-screen');
     setTimeout(() => {
-        let type = 0;
-        if (totalScore >= 85) type = 0;
+        let type = 4;
+        if      (totalScore >= 85) type = 0;
         else if (totalScore >= 65) type = 1;
         else if (totalScore >= 45) type = 2;
         else if (totalScore >= 20) type = 3;
-        else type = 4;
-        
+
         const r = results[type];
-        document.getElementById('r-title').innerHTML = r.title;
-        document.getElementById('r-img').src = r.img;
-        document.getElementById('r-desc').innerHTML = r.desc;
+        document.getElementById('r-title').innerHTML    = r.title;
+        document.getElementById('r-img').src            = r.img;
+        document.getElementById('r-desc').innerHTML     = r.desc;
         document.getElementById('r-book-desc').innerHTML = r.book;
+
         switchScreen('result-screen');
+        launchConfetti();           // 🎊 컨페티!
     }, 2000);
+}
+
+/* ===================================
+   8. 컨페티 이펙트
+=================================== */
+function launchConfetti() {
+    const canvas = document.getElementById('confetti-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const COLORS = ['#FF6B9D', '#C084FC', '#FFB0D0', '#DDB8FF', '#FFD6EB', '#FFFFFF', '#FFE4B5'];
+    const SHAPES = ['circle', 'rect', 'heart'];
+    const PIECES = 110;
+
+    const pieces = Array.from({ length: PIECES }, () => ({
+        x:     Math.random() * canvas.width,
+        y:     Math.random() * canvas.height - canvas.height,
+        r:     Math.random() * 6 + 3,
+        color: COLORS[Math.floor(Math.random() * COLORS.length)],
+        speed: Math.random() * 3 + 1.5,
+        angle: Math.random() * 360,
+        spin:  Math.random() * 7 - 3.5,
+        shape: SHAPES[Math.floor(Math.random() * SHAPES.length)]
+    }));
+
+    let frame = 0;
+    const MAX_FRAMES = 200; // ~3.3초
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pieces.forEach(p => {
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.angle * Math.PI / 180);
+            ctx.fillStyle = p.color;
+
+            if (p.shape === 'circle') {
+                ctx.beginPath();
+                ctx.arc(0, 0, p.r, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (p.shape === 'rect') {
+                ctx.fillRect(-p.r, -p.r * 0.5, p.r * 2, p.r);
+            } else {
+                // 하트 모양
+                const s = p.r * 0.55;
+                ctx.beginPath();
+                ctx.moveTo(0, s * 0.5);
+                ctx.bezierCurveTo( s,    -s * 0.3,  s * 2, s * 0.6,  0,     s * 2);
+                ctx.bezierCurveTo(-s * 2, s * 0.6, -s,    -s * 0.3,  0,     s * 0.5);
+                ctx.fill();
+            }
+            ctx.restore();
+
+            p.y     += p.speed;
+            p.angle += p.spin;
+            if (p.y > canvas.height) {
+                p.y = -10;
+                p.x = Math.random() * canvas.width;
+            }
+        });
+
+        frame++;
+        if (frame < MAX_FRAMES) requestAnimationFrame(draw);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    draw();
+}
+
+/* ===================================
+   9. 버튼 리플 이펙트
+=================================== */
+function addRipple(btn, e) {
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    const x = (e.clientX || rect.left + rect.width / 2) - rect.left - size / 2;
+    const y = (e.clientY || rect.top  + rect.height / 2) - rect.top  - size / 2;
+
+    ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;`;
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
 }
