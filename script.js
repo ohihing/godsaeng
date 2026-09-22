@@ -355,11 +355,26 @@ function selectAnswer(score) {
 
     setTimeout(() => {
         if (currentQ < questions.length) {
-            renderQuestion();
-            // 두 프레임 기다려 DOM 업데이트 후 페이드 인
-            requestAnimationFrame(() => requestAnimationFrame(() => {
-                content.classList.remove('fade-out');
-            }));
+            const q = questions[currentQ];
+
+            // 다음 문항 이미지 미리 로드 후 페이드인
+            let loaded = 0;
+            const onLoad = () => {
+                loaded++;
+                if (loaded >= 2) {
+                    renderQuestion();
+                    requestAnimationFrame(() => requestAnimationFrame(() => {
+                        content.classList.remove('fade-out');
+                    }));
+                }
+            };
+            const pre1 = new Image();
+            const pre2 = new Image();
+            pre1.onload = pre1.onerror = onLoad;
+            pre2.onload = pre2.onerror = onLoad;
+            pre1.src = q.img1;
+            pre2.src = q.img2;
+
         } else {
             showResult();
         }
