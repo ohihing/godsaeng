@@ -329,6 +329,7 @@ body {
 /* 선택지 */
 .choices { display:flex; flex-direction:column; gap:10px; }
 .choice-btn {
+    white-space: pre-line;
     width:100%; padding:17px 20px;
     border:2px solid var(--pink-light); border-radius:var(--r-md);
     background:var(--white); color:var(--text);
