@@ -2,11 +2,11 @@ if (history.scrollRestoration) history.scrollRestoration = 'manual';
 
 /* ===== 데이터 ===== */
 const characters = [
-    { id:1, img:'assets/c_001.png', name:'이은성', desc:'교실 뒷자리의 조용한 프로 관찰자.<br>중학교 때 짝사랑했던 그 애가 전학을 오면서<br>일상이 흔들리기 시작했다?' },
-    { id:2, img:'assets/c_002.png', name:'도유진', desc:'전학 오자마자 인싸 등극!<br>모두에게 다정하지만, 그의 시선이 향하는 곳엔<br>늘 예상치 못한 \'그 사람\'이 있다.' },
-    { id:3, img:'assets/c_003.png', name:'오수아', desc:'은성이의 껌딱지 절친.<br>하지만 최근 은성이 곁을 맴도는<br>남학생들이 몹시 거슬려 폭주하기 직전이다.' },
-    { id:4, img:'assets/c_004.png', name:'차재현', desc:'모두의 첫사랑이자 연극부 부장.<br>언제나 여유 넘치지만, 도유진 앞에만 서면<br>묘하게 뚝딱거린다.' },
-    { id:5, img:'assets/c_005.png', name:'윤해수', desc:'빈틈없는 송현고 최고 여신.<br>남 일에 무관심한 척하면서<br>우리 반 기류를 제일 정확하게 꿰뚫어 본다.' }
+    { id:1, img:'assets/c_001.png', name:'이은성', desc:'교실 뒷자리의 조용한 프로 관찰자. 중학교 때 짝사랑했던 그 애가 전학을 오면서 일상이 흔들리기 시작했다?' },
+    { id:2, img:'assets/c_002.png', name:'도유진', desc:'전학 오자마자 인싸 등극! 모두에게 다정하지만, 그의 시선이 향하는 곳엔 늘 예상치 못한 \'그 사람\'이 있다.' },
+    { id:3, img:'assets/c_003.png', name:'오수아', desc:'은성이의 껌딱지 절친. 하지만 최근 은성이 곁을 맴도는<br>남학생들이 몹시 거슬려 폭주하기 직전이다.' },
+    { id:4, img:'assets/c_004.png', name:'차재현', desc:'모두의 첫사랑이자 연극부 부장. 언제나 여유 넘치지만, 도유진 앞에만 서면 묘하게 뚝딱거린다.' },
+    { id:5, img:'assets/c_005.png', name:'윤해수', desc:'빈틈없는 송현고 최고 여신. 남 일에 무관심한 척하면서 우리 반 기류를 제일 정확하게 꿰뚫어 본다.' }
 ];
 
 const questions = [
