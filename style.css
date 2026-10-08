@@ -117,10 +117,10 @@ body{margin:0;padding:0;min-height:100vh;background:linear-gradient(150deg,#FFF0
 
 /* 메모 박스 */
 .question-memo{background:linear-gradient(160deg,#FFF8F2 0%,#FFF0F7 100%);border:1.5px solid var(--pink-light);border-left:3.5px solid var(--pink-main);border-radius:14px;padding:16px 20px 18px;margin:0 0 18px;box-shadow:0 2px 10px var(--shadow-pink);}
-.memo-label{display:block;font-family:var(--font-hand);font-size:18px;color:var(--pink-dark);margin-bottom:10px;line-height:1.4;}
+.memo-label{display:block;font-family:var(--font-talk);font-size:18px;color:var(--pink-dark);margin-bottom:10px;line-height:1.4;}
 
 /* 문항 텍스트 — 크기 업 */
-#q-text{white-space:pre-line;font-size:22px;line-height:1.7;font-weight:500;color:var(--text);margin:0;word-break:keep-all;}
+#q-text{white-space:pre-line;font-family:var(--font-title);font-size:18px;line-height:1.8;font-weight:500;color:var(--text);margin:0;word-break:keep-all;}
 
 /* 선택지 — 크기 업 */
 .choices{display:flex;flex-direction:column;gap:10px;}
