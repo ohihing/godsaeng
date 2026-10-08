@@ -5,11 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>내 연애 촉은 어느 정도일까? | 송현고 과몰입 추리 테스트</title>
 
-    <!-- 타이틀: Noto Serif KR (로맨스 웹툰 명조) / 메모 필기체: Nanum Pen Script -->
+    <!-- OG / 소셜 공유 태그 -->
+    <!-- ※ assets/og_image.png (1200×630px) 파일을 추가하세요 -->
+    <meta property="og:type"        content="website">
+    <meta property="og:url"         content="https://ohihing.github.io/godsaeng/">
+    <meta property="og:title"       content="내 연애 촉은 어느 정도일까? | 송현고 과몰입 추리 테스트">
+    <meta property="og:description" content="나 빼고 다 썸타는 우리 반? 얽히고설킨 묘한 기류 속에서 내 눈치 레벨을 측정해 보자!">
+    <meta property="og:image"       content="https://ohihing.github.io/godsaeng/assets/og_image.png">
+    <meta name="twitter:card"       content="summary_large_image">
+    <meta name="description"        content="나 빼고 다 썸타는 우리 반? 얽히고설킨 묘한 기류 속에서 내 눈치 레벨을 측정해 보자!">
+
+    <!-- 폰트: Noto Serif KR + Nanum Pen Script -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
-
     <!-- 본문: Pretendard -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css">
 
@@ -18,43 +27,69 @@
 <body>
 <div id="app">
 
-    <!-- ✦ 메인 화면 -->
+    <!-- ────────────────────────
+         메인 화면
+    ──────────────────────────── -->
     <section id="main-screen" class="screen active">
-        <div class="deco-bg" aria-hidden="true">
-            <span class="deco d1">✦</span><span class="deco d2">✦</span>
-            <span class="deco d3">✦</span><span class="deco d4">✦</span>
-            <span class="deco d5">✦</span><span class="deco d6">✦</span>
+
+        <!-- 상단 히어로 이미지 -->
+        <div class="main-hero">
+            <img src="assets/bg_1.png" alt="" class="hero-bg-img">
+            <div class="light-beam lb1"></div>
+            <div class="light-beam lb2"></div>
+            <div class="light-beam lb3"></div>
+            <div class="hero-gradient"></div>
+            <div class="hero-content">
+                <span class="eyebrow-tag">📖 이번 생은 갓생 × 송현고 2-5반</span>
+                <h1 class="main-headline">내 연애 촉은<br>어느 정도일까?</h1>
+            </div>
         </div>
-        <div class="main-eyebrow">
-            <span class="eyebrow-tag">📖 이번 생은 갓생 × 송현고 2-5반</span>
-        </div>
-        <div class="main-titles">
-            <h1 class="main-headline">내 연애 촉은<br>어느 정도일까?</h1>
+
+        <!-- 히어로 아래 본문 -->
+        <div class="main-body">
             <p class="main-sub">나 빼고 다 썸타는 우리 반?<br>얽히고설킨 묘한 기류 속에서 내 눈치 레벨을 측정해 보자!</p>
-        </div>
-        <div class="character-slider-wrap">
-            <p class="slider-hint">💬 캐릭터 카드를 터치하면 소개가 열려요!</p>
-            <div class="character-slider" id="character-slider"></div>
-        </div>
-        <div class="main-cta">
-            <button class="btn-start" onclick="startTest()">
-                <span class="btn-label">관찰 시작하기</span>
-                <span class="btn-emoji">🕵️‍♀️</span>
-            </button>
-            <p class="cta-sub">총 10문항 · 약 3분 소요</p>
+            <div class="character-slider-wrap">
+                <p class="slider-hint">💬 캐릭터 카드를 터치하면 소개가 열려요!</p>
+                <div class="character-slider" id="character-slider"></div>
+            </div>
+            <div class="main-cta">
+                <button class="btn-start" onclick="goToIntro()">
+                    <span class="btn-label">이야기 속으로</span>
+                    <span class="btn-emoji">→</span>
+                </button>
+                <p class="cta-sub">총 10문항 · 약 3분 소요</p>
+            </div>
         </div>
     </section>
 
-    <!-- 캐릭터 상세 모달 (좌우 스와이프 지원) -->
+    <!-- ────────────────────────
+         인트로 화면
+    ──────────────────────────── -->
+    <section id="intro-screen" class="screen">
+        <div class="intro-bg">
+            <img src="assets/bg_1.png" alt="" class="intro-bg-img">
+            <div class="light-beam lb1"></div>
+            <div class="light-beam lb2"></div>
+            <div class="light-beam lb3"></div>
+            <div class="intro-overlay"></div>
+        </div>
+        <div class="intro-content">
+            <p class="intro-line line1">오늘부터 송현고 2학년 5반의<br>전학생이 된 당신.</p>
+            <p class="intro-line line2">첫날부터 반 안에 묘한 기류가 느껴진다.</p>
+            <p class="intro-line line3">조용히 관찰하는 당신의 눈에<br>포착되는 것들...</p>
+            <button class="btn-intro" onclick="startTest()">관찰 일지 펼치기 →</button>
+        </div>
+    </section>
+
+    <!-- ────────────────────────
+         캐릭터 상세 모달
+    ──────────────────────────── -->
     <div class="char-modal-overlay" id="char-modal" onclick="closeCharModal(event)">
         <div class="char-modal-card" onclick="event.stopPropagation()">
             <div class="char-modal-img" id="char-modal-img">
-                <!-- 좌우 화살표 -->
                 <button class="modal-nav modal-prev" onclick="modalPrev()">‹</button>
                 <button class="modal-nav modal-next" onclick="modalNext()">›</button>
-                <!-- 닫기 -->
                 <button class="char-modal-close" onclick="closeCharModal()">✕</button>
-                <!-- 캐릭터 도트 인디케이터 -->
                 <div class="modal-dots" id="modal-dots"></div>
             </div>
             <div class="char-modal-body">
@@ -64,7 +99,9 @@
         </div>
     </div>
 
-    <!-- 📝 테스트 화면 -->
+    <!-- ────────────────────────
+         테스트 화면
+    ──────────────────────────── -->
     <section id="test-screen" class="screen">
         <div class="test-header">
             <div class="test-header-row">
@@ -92,7 +129,9 @@
         </div>
     </section>
 
-    <!-- ⏳ 로딩 화면 -->
+    <!-- ────────────────────────
+         로딩 화면
+    ──────────────────────────── -->
     <section id="loading-screen" class="screen">
         <div class="loading-inner">
             <div class="loading-hearts">
@@ -105,25 +144,67 @@
         </div>
     </section>
 
-    <!-- 🎉 결과 화면 -->
+    <!-- ────────────────────────
+         결과 화면
+    ──────────────────────────── -->
     <section id="result-screen" class="screen">
         <canvas id="confetti-canvas"></canvas>
+
         <div class="result-header">
             <p class="result-eyebrow">✨ 분석 완료</p>
             <h1 class="result-title" id="r-title"></h1>
         </div>
+
         <img id="r-img" src="" alt="결과 이미지" class="result-image">
         <div class="result-desc" id="r-desc"></div>
+
+        <!-- 액션 버튼 -->
+        <div class="result-actions">
+            <button class="btn-share" onclick="shareTest()">🔗 테스트 링크 공유하기</button>
+            <div class="result-btns-row">
+                <button class="btn-other-types" onclick="openTypesModal()">다른 유형 보기</button>
+                <button class="btn-retry-sm" onclick="retryTest()">다시하기</button>
+            </div>
+        </div>
+
+        <!-- 도서 섹션 -->
         <div class="book-section">
             <p class="book-label">📚 맞춤 도서 추천</p>
             <p class="book-desc" id="r-book-desc"></p>
             <img src="assets/book.png" alt="이번 생은 갓생" class="book-image">
-            <button class="btn-book" onclick="window.open('https://도서구매링크를_넣어주세요.com')">
-                『이번 생은 갓생』 자세히 보기 →
-            </button>
+
+            <div class="book-stores">
+                <p class="store-label">도서 자세히 보기</p>
+                <div class="store-row">
+                    <a href="https://product.kyobobook.co.kr/detail/S000221354211"
+                       target="_blank" rel="noopener" class="store-btn">
+                        <img src="assets/ci_kyobo.png" alt="교보문고">
+                    </a>
+                    <a href="https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=402549731"
+                       target="_blank" rel="noopener" class="store-btn">
+                        <img src="assets/ci_aladin.png" alt="알라딘">
+                    </a>
+                    <a href="https://www.yes24.com/product/goods/196701560"
+                       target="_blank" rel="noopener" class="store-btn">
+                        <img src="assets/ci_yes24.png" alt="예스24">
+                    </a>
+                </div>
+            </div>
         </div>
-        <button class="btn-retry" onclick="retryTest()">🔄 테스트 다시하기</button>
+
+        <div style="height:40px;"></div>
     </section>
+
+    <!-- ────────────────────────
+         다른 유형 보기 팝업
+    ──────────────────────────── -->
+    <div class="types-modal-overlay" id="types-modal" onclick="closeTypesModal(event)">
+        <div class="types-modal-card" onclick="event.stopPropagation()">
+            <button class="types-modal-close" onclick="closeTypesModal()">✕</button>
+            <h3 class="types-modal-title">다른 유형 보기</h3>
+            <div class="types-grid" id="types-grid"></div>
+        </div>
+    </div>
 
 </div>
 <script src="script.js"></script>
