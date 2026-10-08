@@ -10,7 +10,6 @@
     <meta property="og:description" content="나 빼고 다 썸타는 우리 반? 얽히고설킨 묘한 기류 속에서 내 눈치 레벨을 측정해 보자!">
     <meta property="og:image"       content="https://ohihing.github.io/godsaeng/assets/og_image.png">
     <meta name="twitter:card"       content="summary_large_image">
-    <meta name="description"        content="나 빼고 다 썸타는 우리 반? 얽히고설킨 묘한 기류 속에서 내 눈치 레벨을 측정해 보자!">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
@@ -20,38 +19,30 @@
 <body>
 <div id="app">
 
-    <!-- ── 메인 화면 ── -->
+    <!-- ── 메인 화면 (원복: 별 장식 + 깔끔한 레이아웃) ── -->
     <section id="main-screen" class="screen active">
-
-        <!-- 배경 이미지 (절대 위치, 콘텐츠 뒤) -->
-        <div class="main-bg-wrap">
-            <img src="assets/bg_1.png" alt="" class="main-bg-img">
-            <div class="light-beam lb1"></div>
-            <div class="light-beam lb2"></div>
-            <div class="light-beam lb3"></div>
-            <div class="main-bg-fade"></div>
+        <div class="deco-bg" aria-hidden="true">
+            <span class="deco d1">✦</span><span class="deco d2">✦</span>
+            <span class="deco d3">✦</span><span class="deco d4">✦</span>
+            <span class="deco d5">✦</span><span class="deco d6">✦</span>
         </div>
-
-        <!-- 콘텐츠 (일반 흐름, 배경 위) -->
-        <div class="main-content">
-            <div class="main-eyebrow">
-                <span class="eyebrow-tag">📖 이번 생은 갓생 × 송현고 2-5반</span>
-            </div>
+        <div class="main-eyebrow">
+            <span class="eyebrow-tag">📖 이번 생은 갓생 × 송현고 2-5반</span>
+        </div>
+        <div class="main-titles">
             <h1 class="main-headline">내 연애 촉은<br>어느 정도일까?</h1>
             <p class="main-sub">나 빼고 다 썸타는 우리 반?<br>얽히고설킨 묘한 기류 속에서 내 눈치 레벨을 측정해 보자!</p>
-
-            <div class="character-slider-wrap">
-                <p class="slider-hint">💬 캐릭터 카드를 터치하면 소개가 열려요!</p>
-                <div class="character-slider" id="character-slider"></div>
-            </div>
-
-            <div class="main-cta">
-                <button class="btn-start" onclick="goToIntro()">
-                    <span class="btn-label">이야기 속으로</span>
-                    <span class="btn-emoji">→</span>
-                </button>
-                <p class="cta-sub">총 10문항 · 약 3분 소요</p>
-            </div>
+        </div>
+        <div class="character-slider-wrap">
+            <p class="slider-hint">💬 캐릭터 카드를 터치하면 소개가 열려요!</p>
+            <div class="character-slider" id="character-slider"></div>
+        </div>
+        <div class="main-cta">
+            <button class="btn-start" onclick="goToIntro()">
+                <span class="btn-label">이야기 속으로</span>
+                <span class="btn-emoji">→</span>
+            </button>
+            <p class="cta-sub">총 10문항 · 약 3분 소요</p>
         </div>
     </section>
 
@@ -65,10 +56,13 @@
             <div class="intro-overlay"></div>
         </div>
         <div class="intro-content">
-            <p class="intro-line line1">원래도 뭔가 이상했던 우리 반이...</p>
-            <p class="intro-line line2">전학생이 오고 나서<br>더 이상해진 것 같다?</p>
-            <p class="intro-line line3">이 기류, 지금부터<br>내가 직접 읽어볼게. 🔍</p>
-            <button class="btn-intro" onclick="startTest()">관찰 일지 펼치기 →</button>
+            <div class="intro-box">
+                <p class="intro-line line1">"쟤네, 좀 수상한데??"</p>
+                <p class="intro-line line2">당신은 지금부터<br>송현고 2학년 5반의 학생이 되어<br>서로간의 관계를 의심합니다.</p>
+                <p class="intro-line line3">과연 이 중 진짜 커플은 누구일까요?</p>
+                <p class="intro-line line4">당신의 연애 촉이 어느 정도인지<br>지금 확인해보세요!</p>
+            </div>
+            <button class="btn-intro" onclick="startTest()">관찰 하러 가기</button>
         </div>
     </section>
 
@@ -138,7 +132,6 @@
         </div>
         <img id="r-img" src="" alt="결과 이미지" class="result-image">
         <div class="result-desc" id="r-desc"></div>
-
         <div class="result-actions">
             <button class="btn-share" onclick="shareTest()">🔗 테스트 링크 공유하기</button>
             <div class="result-btns-row">
@@ -146,7 +139,6 @@
                 <button class="btn-retry-sm" onclick="retryTest()">다시하기</button>
             </div>
         </div>
-
         <div class="book-section">
             <p class="book-label">📚 맞춤 도서 추천</p>
             <p class="book-desc" id="r-book-desc"></p>
@@ -154,15 +146,9 @@
             <div class="book-stores">
                 <p class="store-label">도서 자세히 보기</p>
                 <div class="store-row">
-                    <a href="https://product.kyobobook.co.kr/detail/S000221354211" target="_blank" rel="noopener" class="store-btn">
-                        <img src="assets/ci_kyobo.png" alt="교보문고">
-                    </a>
-                    <a href="https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=402549731" target="_blank" rel="noopener" class="store-btn">
-                        <img src="assets/ci_aladin.png" alt="알라딘">
-                    </a>
-                    <a href="https://www.yes24.com/product/goods/196701560" target="_blank" rel="noopener" class="store-btn">
-                        <img src="assets/ci_yes24.png" alt="예스24">
-                    </a>
+                    <a href="https://product.kyobobook.co.kr/detail/S000221354211" target="_blank" rel="noopener" class="store-btn"><img src="assets/ci_kyobo.png" alt="교보문고"></a>
+                    <a href="https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=402549731" target="_blank" rel="noopener" class="store-btn"><img src="assets/ci_aladin.png" alt="알라딘"></a>
+                    <a href="https://www.yes24.com/product/goods/196701560" target="_blank" rel="noopener" class="store-btn"><img src="assets/ci_yes24.png" alt="예스24"></a>
                 </div>
             </div>
         </div>
