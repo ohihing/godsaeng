@@ -198,7 +198,7 @@ function selectAnswer(score){
     setTimeout(()=>{
         if(currentQ<questions.length){
             const q=questions[currentQ]; let loaded=0;
-            const onLoad=()=>{ loaded++; if(loaded>=2){ renderQuestion(); requestAnimationFrame(()=>requestAnimationFrame(()=>content.classList.remove('fade-out'))); } };
+            const onLoad=()=>{ loaded++; if(loaded>=2){ window.scrollTo(0,0); renderQuestion(); requestAnimationFrame(()=>requestAnimationFrame(()=>content.classList.remove('fade-out'))); } };
             const p1=new Image(),p2=new Image(); p1.onload=p1.onerror=onLoad; p2.onload=p2.onerror=onLoad; p1.src=q.img1; p2.src=q.img2;
         } else { showResult(); }
     },260);
@@ -210,7 +210,7 @@ function goBack(){
     totalScore-=scoreHistory.pop(); currentQ--;
     const content=document.getElementById('test-content');
     content.classList.add('fade-out');
-    setTimeout(()=>{ renderQuestion(); requestAnimationFrame(()=>requestAnimationFrame(()=>content.classList.remove('fade-out'))); },260);
+    setTimeout(()=>{ window.scrollTo(0,0); renderQuestion(); requestAnimationFrame(()=>requestAnimationFrame(()=>content.classList.remove('fade-out'))); },260);
 }
 
 function showResult(){
