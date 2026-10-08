@@ -1,6 +1,5 @@
 if (history.scrollRestoration) history.scrollRestoration = 'manual';
 
-/* ===== 데이터 (캐릭터 / 문항 / 결과) ===== */
 const characters = [
     { id:1, img:'assets/c_001.png', name:'이은성', desc:'교실 뒷자리의 조용한 프로 관찰자.\n중학교 때 짝사랑했던 그 애가 전학을 오면서\n일상이 흔들리기 시작했다?' },
     { id:2, img:'assets/c_002.png', name:'도유진', desc:'전학 오자마자 인싸 등극!\n모두에게 다정하지만, 그의 시선이 향하는 곳엔\n늘 예상치 못한 \'그 사람\'이 있다.' },
@@ -23,7 +22,7 @@ const questions = [
         q:"연극부장 차재현은 워낙 인싸라<br>남녀 가리지 않고 어깨동무를 척척 걸치는데,<br>유독 전학생 도유진이 다가올 때만 귀까지 빨개져서<br>뒷걸음질을 친다.<br><br>이 텐션, 대체 뭘까?",
         img1:"assets/q2_1.png", img2:"assets/q2_2.png",
         choices:[
-            {text:"어제 둘이 싸웠나 보다.\n\n아니면 유진이한테서 땀 냄새 나서 피하는 건가?", score:0},
+            {text:"어제 둘이 싸웠나 보다.\n아니면 유진이한테서 땀 냄새 나서 피하는 건가?", score:0},
             {text:"설마 둘이 한 여자를 두고 기싸움하는 거 아니야?", score:5},
             {text:"얼굴까지 빨개지는 거면, 설마 설마 도유진 좋아하는 거 아냐?", score:10},
         ]
@@ -120,393 +119,134 @@ const results = [
       book:"잠든 연애 감각마저 확 깨워줄 책! 『이번 생은 갓생』은 단순한 로맨스가 아니라 10대들의 찐 우정과 치열한 고민들이 꽉 차 있어서, 당신마저 어느새 푹 빠져들게 만들 거예요." }
 ];
 
-/* ===== 상태 ===== */
-let currentQ=0, totalScore=0, scoreHistory=[];
-let slideIndex=0, slideInterval=null;
-let isSliderInteracting=false, isModalOpen=false;
-let isDragging=false, dragStartX=0, dragScrollLeft=0;
-let questionImageTimer, isScene2=false;
-let modalCharIndex=0, modalTouchStartX=0;
-let modalDragging=false, modalDragStartX=0;
+let currentQ=0,totalScore=0,scoreHistory=[];
+let slideIndex=0,slideInterval=null;
+let isSliderInteracting=false,isModalOpen=false;
+let isDragging=false,dragStartX=0,dragScrollLeft=0;
+let questionImageTimer,isScene2=false;
+let modalCharIndex=0,modalTouchStartX=0;
+let modalDragging=false,modalDragStartX=0;
 
-/* ===== 초기화 ===== */
-window.onload = () => {
-    window.scrollTo(0,0);
-    initCharacterSlider();
-    initModalSwipe();
-    buildModalDots();
-    buildTypesGrid();       // 다른 유형 보기 그리드 사전 생성
-};
+window.onload=()=>{ window.scrollTo(0,0); initCharacterSlider(); initModalSwipe(); buildModalDots(); buildTypesGrid(); };
 
-/* ========================
-   1. 캐릭터 슬라이더
-======================== */
-function initCharacterSlider() {
-    const slider = document.getElementById('character-slider');
-    characters.forEach((c, i) => {
-        const card = document.createElement('div');
-        card.className = 'char-card';
-        card.style.backgroundImage = `url('${c.img}')`;
-        card.onclick = () => openCharModal(i);
-        slider.appendChild(card);
-    });
-
-    function startAutoSlide() {
-        if (isSliderInteracting || isModalOpen) return;
-        stopAutoSlide();
-        slideInterval = setInterval(() => {
-            if (isSliderInteracting || isModalOpen) return;
-            slideIndex = (slideIndex + 1) % characters.length;
-            slider.scrollTo({ left: slideIndex * 256, behavior:'smooth' });
-        }, 5000);
-    }
-    function stopAutoSlide() { clearInterval(slideInterval); slideInterval=null; }
-
-    slider.addEventListener('touchstart', ()=>{ isSliderInteracting=true; stopAutoSlide(); }, {passive:true});
-    slider.addEventListener('touchend',   ()=>{ isSliderInteracting=false; setTimeout(startAutoSlide,1000); }, {passive:true});
-
-    slider.addEventListener('mousedown', (e)=>{
-        isDragging=true; dragStartX=e.pageX-slider.getBoundingClientRect().left;
-        dragScrollLeft=slider.scrollLeft; isSliderInteracting=true;
-        stopAutoSlide(); slider.style.cursor='grabbing'; e.preventDefault();
-    });
-    window.addEventListener('mouseup', ()=>{
-        if(!isDragging) return;
-        isDragging=false; isSliderInteracting=false;
-        slider.style.cursor='grab'; setTimeout(startAutoSlide,1000);
-    });
-    window.addEventListener('mousemove', (e)=>{
-        if(!isDragging) return; e.preventDefault();
-        const x=e.pageX-slider.getBoundingClientRect().left;
-        slider.scrollLeft = dragScrollLeft - (x-dragStartX)*1.4;
-    });
-    slider.addEventListener('scroll', ()=>{ if(isSliderInteracting) slideIndex=Math.round(slider.scrollLeft/256); }, {passive:true});
-
-    startAutoSlide();
-    window._sliderStart = startAutoSlide;
-    window._sliderStop  = stopAutoSlide;
+function initCharacterSlider(){
+    const slider=document.getElementById('character-slider');
+    characters.forEach((c,i)=>{ const card=document.createElement('div'); card.className='char-card'; card.style.backgroundImage=`url('${c.img}')`; card.onclick=()=>openCharModal(i); slider.appendChild(card); });
+    function startAutoSlide(){ if(isSliderInteracting||isModalOpen)return; stopAutoSlide(); slideInterval=setInterval(()=>{ if(isSliderInteracting||isModalOpen)return; slideIndex=(slideIndex+1)%characters.length; slider.scrollTo({left:slideIndex*256,behavior:'smooth'}); },5000); }
+    function stopAutoSlide(){ clearInterval(slideInterval); slideInterval=null; }
+    slider.addEventListener('touchstart',()=>{ isSliderInteracting=true; stopAutoSlide(); },{passive:true});
+    slider.addEventListener('touchend',()=>{ isSliderInteracting=false; setTimeout(startAutoSlide,1000); },{passive:true});
+    slider.addEventListener('mousedown',(e)=>{ isDragging=true; dragStartX=e.pageX-slider.getBoundingClientRect().left; dragScrollLeft=slider.scrollLeft; isSliderInteracting=true; stopAutoSlide(); slider.style.cursor='grabbing'; e.preventDefault(); });
+    window.addEventListener('mouseup',()=>{ if(!isDragging)return; isDragging=false; isSliderInteracting=false; slider.style.cursor='grab'; setTimeout(startAutoSlide,1000); });
+    window.addEventListener('mousemove',(e)=>{ if(!isDragging)return; e.preventDefault(); const x=e.pageX-slider.getBoundingClientRect().left; slider.scrollLeft=dragScrollLeft-(x-dragStartX)*1.4; });
+    slider.addEventListener('scroll',()=>{ if(isSliderInteracting)slideIndex=Math.round(slider.scrollLeft/256); },{passive:true});
+    startAutoSlide(); window._sliderStart=startAutoSlide; window._sliderStop=stopAutoSlide;
 }
 
-/* ========================
-   2. 모달 도트
-======================== */
-function buildModalDots() {
-    const dots = document.getElementById('modal-dots');
-    dots.innerHTML = '';
-    characters.forEach((_, i) => {
-        const d = document.createElement('span');
-        d.className = 'modal-dot' + (i===0?' active':'');
-        d.onclick = (e) => { e.stopPropagation(); modalGoTo(i); };
-        dots.appendChild(d);
-    });
-}
-function updateModalDots() {
-    document.querySelectorAll('.modal-dot').forEach((d,i) => d.classList.toggle('active', i===modalCharIndex));
-}
+function buildModalDots(){ const dots=document.getElementById('modal-dots'); dots.innerHTML=''; characters.forEach((_,i)=>{ const d=document.createElement('span'); d.className='modal-dot'+(i===0?' active':''); d.onclick=(e)=>{ e.stopPropagation(); modalGoTo(i); }; dots.appendChild(d); }); }
+function updateModalDots(){ document.querySelectorAll('.modal-dot').forEach((d,i)=>d.classList.toggle('active',i===modalCharIndex)); }
+function openCharModal(index){ modalCharIndex=index; renderModalChar(false); document.getElementById('char-modal').classList.add('active'); isModalOpen=true; if(window._sliderStop)window._sliderStop(); }
+function closeCharModal(e){ if(e&&e.target!==document.getElementById('char-modal')){ if(!e.target.classList.contains('char-modal-close'))return; } document.getElementById('char-modal').classList.remove('active'); isModalOpen=false; setTimeout(()=>{ if(window._sliderStart)window._sliderStart(); },800); }
+function renderModalChar(animate=true){ const imgEl=document.getElementById('char-modal-img'); const c=characters[modalCharIndex]; const doRender=()=>{ imgEl.style.backgroundImage=`url('${c.img}')`; document.getElementById('char-modal-name').innerText=c.name; document.getElementById('char-modal-desc').innerText=c.desc; updateModalDots(); if(animate)imgEl.classList.remove('fading'); }; if(animate){ imgEl.classList.add('fading'); setTimeout(doRender,200); } else doRender(); }
+function modalPrev(){ modalCharIndex=(modalCharIndex-1+characters.length)%characters.length; renderModalChar(); }
+function modalNext(){ modalCharIndex=(modalCharIndex+1)%characters.length; renderModalChar(); }
+function modalGoTo(i){ if(i!==modalCharIndex){ modalCharIndex=i; renderModalChar(); } }
+function initModalSwipe(){ const imgEl=document.getElementById('char-modal-img'); imgEl.addEventListener('touchstart',(e)=>{ modalTouchStartX=e.touches[0].clientX; },{passive:true}); imgEl.addEventListener('touchend',(e)=>{ const dx=e.changedTouches[0].clientX-modalTouchStartX; if(Math.abs(dx)>40){ dx<0?modalNext():modalPrev(); } },{passive:true}); imgEl.addEventListener('mousedown',(e)=>{ modalDragging=true; modalDragStartX=e.clientX; e.preventDefault(); }); window.addEventListener('mouseup',(e)=>{ if(!modalDragging)return; const dx=e.clientX-modalDragStartX; if(Math.abs(dx)>40){ dx<0?modalNext():modalPrev(); } modalDragging=false; }); }
 
-/* ========================
-   3. 캐릭터 모달
-======================== */
-function openCharModal(index) {
-    modalCharIndex = index;
-    renderModalChar(false);
-    document.getElementById('char-modal').classList.add('active');
-    isModalOpen = true;
-    if (window._sliderStop) window._sliderStop();
-}
-function closeCharModal(e) {
-    if (e && e.target !== document.getElementById('char-modal')) {
-        if (!e.target.classList.contains('char-modal-close')) return;
-    }
-    document.getElementById('char-modal').classList.remove('active');
-    isModalOpen = false;
-    setTimeout(()=>{ if(window._sliderStart) window._sliderStart(); }, 800);
-}
-function renderModalChar(animate=true) {
-    const imgEl = document.getElementById('char-modal-img');
-    const c = characters[modalCharIndex];
-    const doRender = () => {
-        imgEl.style.backgroundImage = `url('${c.img}')`;
-        document.getElementById('char-modal-name').innerText = c.name;
-        document.getElementById('char-modal-desc').innerText = c.desc;
-        updateModalDots();
-        if (animate) imgEl.classList.remove('fading');
-    };
-    if (animate) { imgEl.classList.add('fading'); setTimeout(doRender, 200); }
-    else doRender();
-}
-function modalPrev() { modalCharIndex=(modalCharIndex-1+characters.length)%characters.length; renderModalChar(); }
-function modalNext() { modalCharIndex=(modalCharIndex+1)%characters.length; renderModalChar(); }
-function modalGoTo(i) { if(i!==modalCharIndex){ modalCharIndex=i; renderModalChar(); } }
+function switchScreen(screenId){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(screenId).classList.add('active'); window.scrollTo(0,0); document.documentElement.scrollTop=0; document.body.scrollTop=0; }
+function goToIntro(){ switchScreen('intro-screen'); }
+function startTest(){ currentQ=0; totalScore=0; scoreHistory=[]; switchScreen('test-screen'); renderQuestion(); }
 
-function initModalSwipe() {
-    const imgEl = document.getElementById('char-modal-img');
-    imgEl.addEventListener('touchstart', (e)=>{ modalTouchStartX=e.touches[0].clientX; }, {passive:true});
-    imgEl.addEventListener('touchend', (e)=>{
-        const dx=e.changedTouches[0].clientX-modalTouchStartX;
-        if(Math.abs(dx)>40){ dx<0?modalNext():modalPrev(); }
-    }, {passive:true});
-    imgEl.addEventListener('mousedown', (e)=>{ modalDragging=true; modalDragStartX=e.clientX; e.preventDefault(); });
-    window.addEventListener('mouseup', (e)=>{
-        if(!modalDragging) return;
-        const dx=e.clientX-modalDragStartX;
-        if(Math.abs(dx)>40){ dx<0?modalNext():modalPrev(); }
-        modalDragging=false;
-    });
-}
-
-/* ========================
-   4. 화면 전환 (최상단)
-======================== */
-function switchScreen(screenId) {
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    document.getElementById(screenId).classList.add('active');
-    window.scrollTo(0,0);
-    document.documentElement.scrollTop=0;
-    document.body.scrollTop=0;
-}
-
-/* ========================
-   5. 메인 → 인트로 → 테스트
-======================== */
-function goToIntro() { switchScreen('intro-screen'); }
-
-function startTest() {
-    currentQ=0; totalScore=0; scoreHistory=[];
-    switchScreen('test-screen');
-    renderQuestion();
-}
-
-/* ========================
-   6. 문항 렌더링
-   ★ 이미지 깜빡임 수정: show-scene2 제거 시 트랜지션 일시 중단
-======================== */
-function renderQuestion() {
-    const q = questions[currentQ];
-    document.getElementById('q-num').innerText      = `Q${currentQ+1} / ${questions.length}`;
-    document.getElementById('progress').style.width  = `${((currentQ+1)/questions.length)*100}%`;
-    document.getElementById('q-text').innerHTML     = q.q;
-
-    const container = document.getElementById('image-container');
-    const img1 = document.getElementById('q-img1');
-    const img2 = document.getElementById('q-img2');
-
-    // 트랜지션 일시 중단 → show-scene2 즉시 제거 → 다음 프레임에 트랜지션 복원
-    img1.style.transition = 'none';
-    img2.style.transition = 'none';
+function renderQuestion(){
+    const q=questions[currentQ];
+    document.getElementById('q-num').innerText=`Q${currentQ+1} / ${questions.length}`;
+    document.getElementById('progress').style.width=`${((currentQ+1)/questions.length)*100}%`;
+    document.getElementById('q-text').innerHTML=q.q;
+    const container=document.getElementById('image-container');
+    const img1=document.getElementById('q-img1');
+    const img2=document.getElementById('q-img2');
+    // 이미지 깜빡임 방지: 트랜지션 일시 중단
+    img1.style.transition='none'; img2.style.transition='none';
     container.classList.remove('show-scene2');
-    void container.offsetWidth; // force reflow
-    requestAnimationFrame(() => { img1.style.transition=''; img2.style.transition=''; });
-
-    isScene2=false;
-    document.getElementById('scene-badge').innerText='장면 1 / 2';
+    void container.offsetWidth;
+    requestAnimationFrame(()=>{ img1.style.transition=''; img2.style.transition=''; });
+    isScene2=false; document.getElementById('scene-badge').innerText='장면 1 / 2';
     img1.src=q.img1; img2.src=q.img2;
-
     clearTimeout(questionImageTimer);
-    questionImageTimer=setTimeout(switchToScene2, 4500);
-
+    questionImageTimer=setTimeout(switchToScene2,4500);
     const choicesDiv=document.getElementById('choices');
     choicesDiv.innerHTML='';
     [...q.choices].sort(()=>Math.random()-0.5).forEach(c=>{
         const btn=document.createElement('button');
-        btn.className='choice-btn'; btn.innerText=c.text;
-        btn.onclick=(e)=>{
-            addRipple(btn,e);
-            choicesDiv.querySelectorAll('.choice-btn').forEach(b=>b.disabled=true);
-            setTimeout(()=>selectAnswer(c.score),220);
-        };
+        btn.className='choice-btn';
+        // ★ 작은따옴표 앞뒤 추가
+        btn.innerText='\u2018'+c.text+'\u2019';
+        btn.onclick=(e)=>{ addRipple(btn,e); choicesDiv.querySelectorAll('.choice-btn').forEach(b=>b.disabled=true); setTimeout(()=>selectAnswer(c.score),220); };
         choicesDiv.appendChild(btn);
     });
 }
 
-/* ========================
-   7. 장면 전환
-======================== */
 function switchToScene2(){ document.getElementById('image-container').classList.add('show-scene2'); isScene2=true; document.getElementById('scene-badge').innerText='장면 2 / 2'; }
 function switchToScene1(){ document.getElementById('image-container').classList.remove('show-scene2'); isScene2=false; document.getElementById('scene-badge').innerText='장면 1 / 2'; }
 function toggleQuestionImage(){ clearTimeout(questionImageTimer); isScene2?switchToScene1():switchToScene2(); }
 
-/* ========================
-   8. 답변 선택 (이미지 프리로드)
-======================== */
-function selectAnswer(score) {
+function selectAnswer(score){
     scoreHistory.push(score); totalScore+=score; currentQ++;
     clearTimeout(questionImageTimer);
     const content=document.getElementById('test-content');
     content.classList.add('fade-out');
-
     setTimeout(()=>{
-        if (currentQ<questions.length) {
-            const q=questions[currentQ];
-            let loaded=0;
-            const onLoad=()=>{
-                loaded++;
-                if(loaded>=2){
-                    renderQuestion();
-                    requestAnimationFrame(()=>requestAnimationFrame(()=>content.classList.remove('fade-out')));
-                }
-            };
-            const p1=new Image(), p2=new Image();
-            p1.onload=p1.onerror=onLoad; p2.onload=p2.onerror=onLoad;
-            p1.src=q.img1; p2.src=q.img2;
-        } else {
-            showResult();
-        }
-    }, 260);
+        if(currentQ<questions.length){
+            const q=questions[currentQ]; let loaded=0;
+            const onLoad=()=>{ loaded++; if(loaded>=2){ renderQuestion(); requestAnimationFrame(()=>requestAnimationFrame(()=>content.classList.remove('fade-out'))); } };
+            const p1=new Image(),p2=new Image(); p1.onload=p1.onerror=onLoad; p2.onload=p2.onerror=onLoad; p1.src=q.img1; p2.src=q.img2;
+        } else { showResult(); }
+    },260);
 }
 
-/* ========================
-   9. 뒤로가기
-======================== */
-function goBack() {
+function goBack(){
     clearTimeout(questionImageTimer);
     if(currentQ===0){ switchScreen('main-screen'); return; }
     totalScore-=scoreHistory.pop(); currentQ--;
     const content=document.getElementById('test-content');
     content.classList.add('fade-out');
-    setTimeout(()=>{
-        renderQuestion();
-        requestAnimationFrame(()=>requestAnimationFrame(()=>content.classList.remove('fade-out')));
-    },260);
+    setTimeout(()=>{ renderQuestion(); requestAnimationFrame(()=>requestAnimationFrame(()=>content.classList.remove('fade-out'))); },260);
 }
 
-/* ========================
-   10. 결과 표시
-======================== */
-function showResult() {
+function showResult(){
     switchScreen('loading-screen');
     setTimeout(()=>{
         let type=4;
         if(totalScore>=85)type=0; else if(totalScore>=65)type=1;
         else if(totalScore>=45)type=2; else if(totalScore>=20)type=3;
-        viewResult(type);
-        switchScreen('result-screen');
-        launchConfetti();
+        viewResult(type); switchScreen('result-screen'); launchConfetti();
     },2000);
 }
 
-/* ========================
-   11. 결과 내용 렌더 (다른 유형 보기에서도 재사용)
-======================== */
-function viewResult(typeIndex) {
-    const r=results[typeIndex];
-    document.getElementById('r-title').innerHTML     = r.title;
-    document.getElementById('r-img').src             = r.img;
-    document.getElementById('r-desc').innerHTML      = r.desc;
-    document.getElementById('r-book-desc').innerHTML = r.book;
-    window.scrollTo(0,0);
-    closeTypesModal();
-}
+function viewResult(typeIndex){ const r=results[typeIndex]; document.getElementById('r-title').innerHTML=r.title; document.getElementById('r-img').src=r.img; document.getElementById('r-desc').innerHTML=r.desc; document.getElementById('r-book-desc').innerHTML=r.book; window.scrollTo(0,0); closeTypesModal(); }
+function retryTest(){ currentQ=0; totalScore=0; scoreHistory=[]; clearTimeout(questionImageTimer); switchScreen('main-screen'); }
 
-/* ========================
-   12. 다시하기
-======================== */
-function retryTest() {
-    currentQ=0; totalScore=0; scoreHistory=[];
-    clearTimeout(questionImageTimer);
-    switchScreen('main-screen');
+async function shareTest(){
+    const url=window.location.href;
+    const title='내 연애 촉은 어느 정도일까? | 송현고 과몰입 추리 테스트';
+    if(navigator.share){ try{ await navigator.share({title,url}); }catch(e){} }
+    else{ try{ await navigator.clipboard.writeText(url); showToast('링크가 복사됐어요! 🔗'); }catch(e){ showToast('링크: '+url); } }
 }
+function showToast(msg){ document.querySelectorAll('.toast-msg').forEach(t=>t.remove()); const toast=document.createElement('div'); toast.className='toast-msg'; toast.innerText=msg; document.body.appendChild(toast); setTimeout(()=>toast.classList.add('show'),10); setTimeout(()=>{ toast.classList.remove('show'); setTimeout(()=>toast.remove(),300); },2500); }
 
-/* ========================
-   13. 링크 공유하기
-======================== */
-async function shareTest() {
-    const url   = window.location.href;
-    const title = '내 연애 촉은 어느 정도일까? | 송현고 과몰입 추리 테스트';
-    if (navigator.share) {
-        try { await navigator.share({ title, url }); } catch(e) {}
-    } else {
-        try {
-            await navigator.clipboard.writeText(url);
-            showToast('링크가 복사됐어요! 🔗');
-        } catch(e) {
-            showToast('링크: ' + url);
-        }
-    }
-}
+function buildTypesGrid(){ const grid=document.getElementById('types-grid'); if(!grid||grid.children.length>0)return; results.forEach((r,i)=>{ const btn=document.createElement('button'); btn.className='type-card-btn'; const img=document.createElement('img'); img.src=r.img; img.className='type-card-img'; img.alt=''; const name=document.createElement('span'); name.className='type-card-name'; name.innerText=r.title.replace(/<br>/g,' ').replace(/<[^>]+>/g,''); btn.appendChild(img); btn.appendChild(name); btn.onclick=()=>{ viewResult(i); switchScreen('result-screen'); }; grid.appendChild(btn); }); }
+function openTypesModal(){ document.getElementById('types-modal').classList.add('active'); }
+function closeTypesModal(e){ if(e&&e.target!==document.getElementById('types-modal')){ if(!e.target.classList.contains('types-modal-close'))return; } document.getElementById('types-modal').classList.remove('active'); }
 
-function showToast(msg) {
-    document.querySelectorAll('.toast-msg').forEach(t=>t.remove());
-    const toast=document.createElement('div');
-    toast.className='toast-msg'; toast.innerText=msg;
-    document.body.appendChild(toast);
-    setTimeout(()=>toast.classList.add('show'), 10);
-    setTimeout(()=>{ toast.classList.remove('show'); setTimeout(()=>toast.remove(),300); }, 2500);
-}
-
-/* ========================
-   14. 다른 유형 보기 팝업
-======================== */
-function buildTypesGrid() {
-    const grid=document.getElementById('types-grid');
-    if(!grid || grid.children.length>0) return;
-    results.forEach((r,i)=>{
-        const btn=document.createElement('button');
-        btn.className='type-card-btn';
-        const img=document.createElement('img');
-        img.src=r.img; img.className='type-card-img'; img.alt='';
-        const name=document.createElement('span');
-        name.className='type-card-name';
-        name.innerText=r.title.replace(/<br>/g,' ').replace(/<[^>]+>/g,'');
-        btn.appendChild(img); btn.appendChild(name);
-        btn.onclick=()=>{ viewResult(i); switchScreen('result-screen'); };
-        grid.appendChild(btn);
-    });
-}
-function openTypesModal()  { document.getElementById('types-modal').classList.add('active'); }
-function closeTypesModal(e) {
-    if(e && e.target!==document.getElementById('types-modal')) {
-        if(!e.target.classList.contains('types-modal-close')) return;
-    }
-    document.getElementById('types-modal').classList.remove('active');
-}
-
-/* ========================
-   15. 컨페티 (페이드아웃 포함)
-======================== */
-function launchConfetti() {
-    const canvas=document.getElementById('confetti-canvas');
-    if(!canvas) return;
-    const ctx=canvas.getContext('2d');
-    canvas.width=window.innerWidth; canvas.height=window.innerHeight;
-    canvas.style.opacity='1';
+function launchConfetti(){
+    const canvas=document.getElementById('confetti-canvas'); if(!canvas)return;
+    const ctx=canvas.getContext('2d'); canvas.width=window.innerWidth; canvas.height=window.innerHeight; canvas.style.opacity='1';
     const COLORS=['#FF6B9D','#C084FC','#FFB0D0','#DDB8FF','#FFD6EB','#FFFFFF','#FFE4B5'];
-    const SHAPES=['circle','rect','heart'];
-    const MAX=200, FADE=155;
-    const pieces=Array.from({length:110},()=>({
-        x:Math.random()*canvas.width, y:Math.random()*canvas.height-canvas.height,
-        r:Math.random()*6+3, color:COLORS[Math.floor(Math.random()*COLORS.length)],
-        speed:Math.random()*3+1.5, angle:Math.random()*360, spin:Math.random()*7-3.5,
-        shape:SHAPES[Math.floor(Math.random()*SHAPES.length)]
-    }));
+    const SHAPES=['circle','rect','heart']; const MAX=200,FADE=155;
+    const pieces=Array.from({length:110},()=>({ x:Math.random()*canvas.width,y:Math.random()*canvas.height-canvas.height,r:Math.random()*6+3,color:COLORS[Math.floor(Math.random()*COLORS.length)],speed:Math.random()*3+1.5,angle:Math.random()*360,spin:Math.random()*7-3.5,shape:SHAPES[Math.floor(Math.random()*SHAPES.length)] }));
     let frame=0;
-    function draw(){
-        if(frame>=FADE) canvas.style.opacity=String(Math.max(0,1-(frame-FADE)/(MAX-FADE)));
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        pieces.forEach(p=>{
-            ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.angle*Math.PI/180); ctx.fillStyle=p.color;
-            if(p.shape==='circle'){ ctx.beginPath(); ctx.arc(0,0,p.r,0,Math.PI*2); ctx.fill(); }
-            else if(p.shape==='rect'){ ctx.fillRect(-p.r,-p.r*0.5,p.r*2,p.r); }
-            else{ const s=p.r*0.55; ctx.beginPath(); ctx.moveTo(0,s*0.5);
-                ctx.bezierCurveTo(s,-s*0.3,s*2,s*0.6,0,s*2);
-                ctx.bezierCurveTo(-s*2,s*0.6,-s,-s*0.3,0,s*0.5); ctx.fill(); }
-            ctx.restore();
-            p.y+=p.speed; p.angle+=p.spin;
-            if(p.y>canvas.height){ p.y=-10; p.x=Math.random()*canvas.width; }
-        });
-        frame++;
-        if(frame<MAX) requestAnimationFrame(draw);
-        else{ canvas.style.opacity='0'; ctx.clearRect(0,0,canvas.width,canvas.height); }
-    }
+    function draw(){ if(frame>=FADE)canvas.style.opacity=String(Math.max(0,1-(frame-FADE)/(MAX-FADE))); ctx.clearRect(0,0,canvas.width,canvas.height); pieces.forEach(p=>{ ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.angle*Math.PI/180); ctx.fillStyle=p.color; if(p.shape==='circle'){ctx.beginPath();ctx.arc(0,0,p.r,0,Math.PI*2);ctx.fill();} else if(p.shape==='rect'){ctx.fillRect(-p.r,-p.r*0.5,p.r*2,p.r);} else{const s=p.r*0.55;ctx.beginPath();ctx.moveTo(0,s*0.5);ctx.bezierCurveTo(s,-s*0.3,s*2,s*0.6,0,s*2);ctx.bezierCurveTo(-s*2,s*0.6,-s,-s*0.3,0,s*0.5);ctx.fill();} ctx.restore(); p.y+=p.speed; p.angle+=p.spin; if(p.y>canvas.height){p.y=-10;p.x=Math.random()*canvas.width;} }); frame++; if(frame<MAX)requestAnimationFrame(draw); else{canvas.style.opacity='0';ctx.clearRect(0,0,canvas.width,canvas.height);} }
     draw();
 }
 
-/* ========================
-   16. 리플 이펙트
-======================== */
-function addRipple(btn,e){
-    const r=document.createElement('span'); r.className='ripple';
-    const rect=btn.getBoundingClientRect(), size=Math.max(rect.width,rect.height);
-    r.style.cssText=`width:${size}px;height:${size}px;left:${(e.clientX||rect.left+rect.width/2)-rect.left-size/2}px;top:${(e.clientY||rect.top+rect.height/2)-rect.top-size/2}px;`;
-    btn.appendChild(r); setTimeout(()=>r.remove(),600);
-}
+function addRipple(btn,e){ const r=document.createElement('span'); r.className='ripple'; const rect=btn.getBoundingClientRect(),size=Math.max(rect.width,rect.height); r.style.cssText=`width:${size}px;height:${size}px;left:${(e.clientX||rect.left+rect.width/2)-rect.left-size/2}px;top:${(e.clientY||rect.top+rect.height/2)-rect.top-size/2}px;`; btn.appendChild(r); setTimeout(()=>r.remove(),600); }
