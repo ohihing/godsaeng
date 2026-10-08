@@ -120,11 +120,11 @@ body{margin:0;padding:0;min-height:100vh;background:linear-gradient(150deg,#FFF0
 .memo-label{display:block;font-family:var(--font-hand);font-size:18px;color:var(--pink-dark);margin-bottom:10px;line-height:1.4;}
 
 /* 문항 텍스트 — 크기 업 */
-#q-text{white-space:pre-line;font-size:17px;line-height:1.8;font-weight:500;color:var(--text);margin:0;word-break:keep-all;}
+#q-text{white-space:pre-line;font-size:22px;line-height:1.7;font-weight:500;color:var(--text);margin:0;word-break:keep-all;}
 
 /* 선택지 — 크기 업 */
 .choices{display:flex;flex-direction:column;gap:10px;}
-.choice-btn{white-space:pre-line;width:100%;padding:17px 20px;border:2px solid var(--pink-light);border-radius:var(--r-md);background:var(--white);color:var(--text);font-family:var(--font-talk);font-size:18px;font-weight:400;line-height:1.5;text-align:left;cursor:pointer;position:relative;overflow:hidden;transition:border-color 0.18s,background 0.18s,transform 0.12s;}
+.choice-btn{white-space:pre-line;width:100%;padding:17px 20px;border:2px solid var(--pink-light);border-radius:var(--r-md);background:var(--white);color:var(--text);font-family:var(--font-talk);font-size:21px;font-weight:400;line-height:1.5;text-align:left;cursor:pointer;position:relative;overflow:hidden;transition:border-color 0.18s,background 0.18s,transform 0.12s;}
 .choice-btn:active{border-color:var(--pink-main);background:var(--pink-pale);transform:scale(0.985);}
 .choice-btn .ripple{position:absolute;border-radius:50%;background:rgba(255,107,157,0.25);transform:scale(0);animation:rippleAnim 0.5s linear;pointer-events:none;}
 @keyframes rippleAnim{to{transform:scale(4);opacity:0;}}
@@ -149,7 +149,7 @@ body{margin:0;padding:0;min-height:100vh;background:linear-gradient(150deg,#FFF0
 .result-image{width:100%;border-radius:20px;margin-bottom:20px;box-shadow:0 8px 30px var(--shadow-pink);display:block;}
 
 /* 유형 설명 — 크기 업 + 줄간격 타이트 */
-.result-desc{font-family:var(--font-talk);font-size:18px;line-height:1.65;color:var(--text);background:linear-gradient(135deg,var(--pink-pale),var(--purple-pale));border:1.5px solid var(--pink-light);padding:22px 20px;border-radius:var(--r-md);margin-bottom:20px;word-break:keep-all;}
+.result-desc{font-family:var(--font-talk);font-size:23px;line-height:1.6;color:var(--text);background:linear-gradient(135deg,var(--pink-pale),var(--purple-pale));border:1.5px solid var(--pink-light);padding:22px 20px;border-radius:var(--r-md);margin-bottom:20px;word-break:keep-all;}
 
 /* 액션 버튼 */
 .result-actions{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
