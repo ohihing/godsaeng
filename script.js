@@ -242,10 +242,10 @@ function launchConfetti(){
     const canvas=document.getElementById('confetti-canvas'); if(!canvas)return;
     const ctx=canvas.getContext('2d'); canvas.width=window.innerWidth; canvas.height=window.innerHeight; canvas.style.opacity='1';
     const COLORS=['#FF6B9D','#C084FC','#FFB0D0','#DDB8FF','#FFD6EB','#FFFFFF','#FFE4B5'];
-    const SHAPES=['circle','rect','heart']; const MAX=200,FADE=155;
+    const SHAPES=['circle','rect','heart']; const MAX=260,FADE=120;
     const pieces=Array.from({length:110},()=>({ x:Math.random()*canvas.width,y:Math.random()*canvas.height-canvas.height,r:Math.random()*6+3,color:COLORS[Math.floor(Math.random()*COLORS.length)],speed:Math.random()*3+1.5,angle:Math.random()*360,spin:Math.random()*7-3.5,shape:SHAPES[Math.floor(Math.random()*SHAPES.length)] }));
     let frame=0;
-    function draw(){ if(frame>=FADE)canvas.style.opacity=String(Math.max(0,1-(frame-FADE)/(MAX-FADE))); ctx.clearRect(0,0,canvas.width,canvas.height); pieces.forEach(p=>{ ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.angle*Math.PI/180); ctx.fillStyle=p.color; if(p.shape==='circle'){ctx.beginPath();ctx.arc(0,0,p.r,0,Math.PI*2);ctx.fill();} else if(p.shape==='rect'){ctx.fillRect(-p.r,-p.r*0.5,p.r*2,p.r);} else{const s=p.r*0.55;ctx.beginPath();ctx.moveTo(0,s*0.5);ctx.bezierCurveTo(s,-s*0.3,s*2,s*0.6,0,s*2);ctx.bezierCurveTo(-s*2,s*0.6,-s,-s*0.3,0,s*0.5);ctx.fill();} ctx.restore(); p.y+=p.speed; p.angle+=p.spin; if(p.y>canvas.height){p.y=-10;p.x=Math.random()*canvas.width;} }); frame++; if(frame<MAX)requestAnimationFrame(draw); else{canvas.style.opacity='0';ctx.clearRect(0,0,canvas.width,canvas.height);} }
+    function draw(){ if(frame>=FADE)canvas.style.opacity=String(Math.max(0,1-(frame-FADE)/(MAX-FADE))); ctx.clearRect(0,0,canvas.width,canvas.height); pieces.forEach(p=>{ ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.angle*Math.PI/180); ctx.fillStyle=p.color; if(p.shape==='circle'){ctx.beginPath();ctx.arc(0,0,p.r,0,Math.PI*2);ctx.fill();} else if(p.shape==='rect'){ctx.fillRect(-p.r,-p.r*0.5,p.r*2,p.r);} else{const s=p.r*0.55;ctx.beginPath();ctx.moveTo(0,s*0.5);ctx.bezierCurveTo(s,-s*0.3,s*2,s*0.6,0,s*2);ctx.bezierCurveTo(-s*2,s*0.6,-s,-s*0.3,0,s*0.5);ctx.fill();} ctx.restore(); p.y+=p.speed; p.angle+=p.spin; if(p.y>canvas.height){p.y=-10;p.x=Math.random()*canvas.width;} }); frame++; if(frame<MAX)requestAnimationFrame(draw); else{ canvas.style.opacity='0'; setTimeout(()=>ctx.clearRect(0,0,canvas.width,canvas.height),800); } }
     draw();
 }
 
