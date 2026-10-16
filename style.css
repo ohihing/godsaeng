@@ -142,11 +142,11 @@ body{margin:0;padding:0;min-height:100vh;background:linear-gradient(150deg,#FFF0
 
 /* ── 결과 화면 ── */
 #result-screen{padding-top:24px;}
-#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:200;transition:opacity 0.6s ease;}
+#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:200;}
 .result-header{text-align:center;padding-bottom:20px;}
 .result-eyebrow{font-size:13px;font-weight:700;color:var(--purple-main);margin:0 0 8px;letter-spacing:0.4px;}
 .result-title{font-family:var(--font-title);font-size:24px;font-weight:900;line-height:1.4;margin:0;word-break:keep-all;background:linear-gradient(135deg,var(--pink-main),var(--purple-main));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.result-image{width:100%;border-radius:20px;margin-bottom:20px;box-shadow:0 8px 30px var(--shadow-pink);display:block;}
+.result-image{width:70%;max-width:280px;border-radius:20px;margin:0 auto 20px;box-shadow:0 8px 30px var(--shadow-pink);display:block;}
 
 /* 유형 설명 — 크기 업 + 줄간격 타이트 */
 .result-desc{font-family:var(--font-talk);font-size:23px;line-height:1.6;color:var(--text);background:linear-gradient(135deg,var(--pink-pale),var(--purple-pale));border:1.5px solid var(--pink-light);padding:22px 20px;border-radius:var(--r-md);margin-bottom:20px;word-break:keep-all;}
